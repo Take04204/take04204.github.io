@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ワンピース性格診断</title>
+<meta name="description" content="20問に答えて、全40キャラからあなたに一番近いキャラを判定。相性がいいキャラ・ライバルも出ます。ファンによる非公式の診断です。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="ワンピース性格診断">
+<meta property="og:description" content="20問に答えて、全40キャラからあなたに一番近いキャラを判定。相性がいいキャラ・ライバルも出ます。">
+<meta property="og:url" content="https://take04204.github.io/onepiece.html">
+<meta property="og:image" content="https://take04204.github.io/ogp-onepiece.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ワンピース性格診断">
+<meta name="twitter:description" content="20問に答えて、全40キャラからあなたに一番近いキャラを判定。">
+<meta name="twitter:image" content="https://take04204.github.io/ogp-onepiece.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Kaku+Gothic+New:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F3F6FA; --ink:#14213D; --sub:#55627A; --card:#FFFFFF; --line:#D5DDE8;
+  --court:#123B6B; --accent:#D7263D; --ball:#F5C518; --onaccent:#FFFFFF;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0E1A2B; --ink:#E8EEF6; --sub:#9AA8BE; --card:#16263D; --line:#2A3D5A;
+    --court:#1E5A9C; --accent:#E8414F; --ball:#F5C518; --onaccent:#FFFFFF;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0E1A2B; --ink:#E8EEF6; --sub:#9AA8BE; --card:#16263D; --line:#2A3D5A;
+  --court:#1E5A9C; --accent:#E8414F; --ball:#F5C518; --onaccent:#FFFFFF;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Zen Kaku Gothic New","Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;
+  line-height:1.7;-webkit-font-smoothing:antialiased}
+.wrap{max-width:560px;margin:0 auto;padding:20px 18px 40px}
+h1,h2,.display{font-family:"Dela Gothic One","Zen Kaku Gothic New",sans-serif;font-weight:400;letter-spacing:.02em}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,a:focus-visible{outline:3px solid var(--ball);outline-offset:2px}
+
+/* hero: court */
+.court{position:relative;background:var(--court);color:#fff;border-radius:18px;padding:34px 22px 28px;overflow:hidden}
+.court::before{content:"";position:absolute;inset:14px;border:2px solid rgba(255,255,255,.55);border-radius:6px;pointer-events:none}
+.court::after{content:"";position:absolute;left:0;right:0;bottom:0;height:46px;background:repeating-radial-gradient(circle at 20px -10px,transparent 0 18px,rgba(255,255,255,.22) 19px 22px,transparent 23px 40px);pointer-events:none}
+.court h1{position:relative;z-index:1;font-size:clamp(34px,10vw,52px);line-height:1.15;margin:0 0 16px}
+.court p{position:relative;z-index:1;margin:0;font-weight:700;color:rgba(255,255,255,.92)}
+.stats{position:relative;z-index:1;display:flex;gap:10px;margin-top:22px;flex-wrap:wrap}
+.stats span{background:rgba(255,255,255,.14);padding:4px 12px;border-radius:999px;font-size:14px;font-weight:700}
+.ball{position:absolute;right:-26px;top:-26px;width:120px;height:120px;border-radius:50%;
+  background:radial-gradient(circle at 50% 50%,#fff7cf 0 22%,var(--ball) 23% 62%,rgba(245,197,24,.35) 63%);opacity:.95}
+.start{display:block;width:100%;margin-top:22px;padding:18px;border:0;border-radius:14px;background:var(--accent);color:var(--onaccent);
+  font-family:"Dela Gothic One",sans-serif;font-size:22px}
+.note{font-size:12px;color:var(--sub);margin-top:18px;text-align:center}
+
+/* quiz */
+.bar{height:8px;background:var(--line);border-radius:99px;overflow:hidden;margin:6px 0 4px}
+.bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .25s}
+.count{display:flex;justify-content:space-between;font-size:14px;color:var(--sub);font-weight:700}
+.q{font-size:22px;font-weight:900;margin:22px 0 18px;line-height:1.5}
+.opts{display:grid;gap:10px}
+.opt{text-align:left;background:var(--card);border:2px solid var(--line);border-radius:14px;padding:15px 16px;font-weight:700;font-size:16px;line-height:1.5}
+.opt:hover{border-color:var(--accent)}
+.opt:active{transform:scale(.99)}
+.back{margin-top:18px;background:none;border:0;color:var(--sub);font-weight:700;padding:8px 0}
+
+/* result */
+.res{background:var(--card);border-radius:18px;overflow:hidden;border:1px solid var(--line)}
+.jersey{padding:26px 22px 22px;color:#fff;position:relative}
+.jersey .school{font-weight:700;font-size:14px;opacity:.95}
+.jersey .name{font-size:clamp(32px,9vw,44px);line-height:1.2;margin:6px 0 10px}
+.jersey .type{display:inline-block;background:rgba(255,255,255,.95);color:#14213D;font-weight:900;padding:4px 12px;border-radius:8px}
+.match{position:absolute;right:18px;top:18px;text-align:right}
+.match b{display:block;font-family:"Dela Gothic One",sans-serif;font-size:30px;line-height:1}
+.match small{font-size:11px;font-weight:700}
+.body{padding:20px 22px 6px}
+.body p{margin:0 0 16px}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}
+.pair div{border:2px solid var(--line);border-radius:12px;padding:10px 12px}
+.pair small{display:block;color:var(--sub);font-weight:700;font-size:12px}
+.pair strong{font-size:16px}
+.next h3{font-size:15px;margin:0 0 8px;color:var(--sub)}
+.next ol{margin:0 0 18px;padding-left:1.4em}
+.next li{font-weight:700}
+.next li span{color:var(--sub);font-weight:400;font-size:14px}
+.actions{display:grid;gap:10px;padding:0 22px 22px}
+.btn{display:block;text-align:center;text-decoration:none;padding:15px;border-radius:12px;font-weight:900;border:0;font-size:16px}
+.btn.x{background:#14213D;color:#fff}
+:root[data-theme="dark"] .btn.x{background:#E8EEF6;color:#14213D}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .btn.x{background:#E8EEF6;color:#14213D}}
+.btn.copy{background:var(--accent);color:var(--onaccent)}
+.btn.again{background:none;border:2px solid var(--line);color:var(--ink)}
+.toast{text-align:center;font-size:13px;color:var(--sub);min-height:1.4em}
+.hidden{display:none}
+.fade{animation:fade .35s ease}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.fade{animation:none}.bar i{transition:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <section id="top">
+    <div class="court">
+      <div class="ball" aria-hidden="true"></div>
+      <h1>ワンピース<br>性格診断</h1>
+      <p>20の質問に答えて、<br>あなたに近いキャラを見つけよう。</p>
+      <div class="stats"><span>全20問</span><span>40キャラ</span><span>約3分</span></div>
+    </div>
+    <button class="start" id="startBtn">診断をはじめる</button>
+    <p class="note">ファンが作った非公式の診断です。原作・公式とは関係ありません。</p>
+  </section>
+
+  <section id="quiz" class="hidden">
+    <div class="count"><span id="qnum">Q1</span><span id="qtotal">/ 20</span></div>
+    <div class="bar"><i id="barFill"></i></div>
+    <div id="qbox"></div>
+    <button class="back" id="backBtn">ひとつ前の質問に戻る</button>
+  </section>
+
+  <section id="result" class="hidden"></section>
+
+</div>
+
+<script>
+// 10 parameters: hot, team, brain, sense, grit, social, bold, lead, stable, compete
+var DIMS=["hot","team","brain","sense","grit","social","bold","lead","stable","compete"];
+
+var SCHOOLS={"麦わらの一味": "#C8102E", "白ひげ海賊団": "#5B3E96", "革命軍": "#2F6E4F", "赤髪海賊団": "#8B1A1A", "ハートの海賊団": "#C99A06", "九蛇海賊団": "#B03A7A", "元王下七武海": "#3B4A5A", "バギー海賊団": "#2A6FB5", "ドンキホーテ海賊団": "#C2410C", "海軍": "#1F4E79", "ビッグ・マム海賊団": "#9D174D", "ワノ国": "#7C2D12", "アラバスタ王国": "#B7791F", "CP9": "#111827", "元バロックワークス": "#6D28D9", "ドラム王国": "#0E7490", "海上レストラン・バラティエ": "#9A3412", "ココヤシ村": "#C2410C", "シャンディア": "#15803D", "空島": "#CA8A04", "クリーク海賊団": "#57534E", "ガレーラカンパニー": "#1D4ED8", "ベラミー海賊団": "#374151", "バルトクラブ": "#047857"};
+
+// [name, school, type, desc, vector(10), compat, rival]
+var CHARS=[
+["モンキー・D・ルフィ", "麦わらの一味", "まっすぐな自由人", "やりたいことに一直線で、理屈より気持ちで動く人。裏表のなさと仲間を思う強さで、気づけば周りに人が集まっている。", [2, 2, -2, 2, 1, 2, 2, 1, 2, 1], "ロロノア・ゾロ", "シャーロット・カタクリ"],
+["ロロノア・ゾロ", "麦わらの一味", "ストイックな求道者", "決めた目標のために、黙々と自分を鍛え続ける人。口数は少なくても、いざという時に一番頼りになる存在。", [1, 1, -1, 1, 2, -1, 1, 0, 2, 2], "モンキー・D・ルフィ", "ジュラキュール・ミホーク"],
+["ナミ", "麦わらの一味", "しっかり者の現実派", "損得や状況を冷静に読んで、チームを正しい方向へ導く人。強がりに見えて、実は誰よりも仲間思い。", [1, 1, 2, 0, 1, 1, -1, 0, -1, 0], "ニコ・ロビン", "エネル"],
+["ウソップ", "麦わらの一味", "勇気をふりしぼる努力家", "怖さを知っているからこそ、それを乗り越えたときに誰より強くなれる人。工夫とアイデアで、周りを何度も救ってきた。", [1, 1, 1, -2, 2, 1, -2, -1, -2, 0], "トニートニー・チョッパー", "バギー"],
+["サンジ", "麦わらの一味", "優しさで動く行動派", "困っている人を見ると放っておけない、面倒見のいい人。自分の信念を曲げずに、大切な人を全力で守り抜く。", [2, 2, 0, 1, 1, 1, 1, 0, 0, 1], "ゼフ", "ロロノア・ゾロ"],
+["トニートニー・チョッパー", "麦わらの一味", "素直な頑張り屋", "褒められると照れつつも、人の役に立つために努力を惜しまない人。純粋さが、周りの人の心をやわらかくする。", [1, 1, 1, -1, 2, 0, -1, -1, -2, -1], "Dr.ヒルルク", "トラファルガー・ロー"],
+["ニコ・ロビン", "麦わらの一味", "静かな知性派", "落ち着いていて、物事を深く理解しようとする人。多くを語らなくても、そばにいるだけで安心感を与える。", [-2, 1, 2, 1, 0, -1, 0, -1, 2, -1], "ナミ", "サー・クロコダイル"],
+["フランキー", "麦わらの一味", "ノリのいい職人", "楽しいことが大好きで、場を一気に盛り上げられる人。ものづくりへのこだわりは本物で、腕で信頼を勝ち取る。", [2, 1, 1, 1, 1, 2, 2, 1, 1, 0], "ウソップ", "パウリー"],
+["ブルック", "麦わらの一味", "陽気な大人", "つらい経験も笑いに変えて、周りを明るくできる人。軽く見えて、約束を守り抜く誠実さを持っている。", [0, 1, 0, 1, 1, 2, 0, -1, 2, -1], "フランキー", "ロロノア・ゾロ"],
+["ジンベエ", "麦わらの一味", "義理堅い大黒柱", "筋を通すことを何より大切にする、頼れるまとめ役。どんな場面でも落ち着いていて、周りの支えになる。", [0, 2, 1, 0, 1, 0, 0, 2, 2, 0], "エドワード・ニューゲート", "マルコ"],
+["ポートガス・D・エース", "白ひげ海賊団", "熱い兄貴分", "情に厚く、大切な人のためなら迷わず動ける人。自由で豪快だけど、礼儀や恩をきちんと大事にする。", [2, 1, -1, 2, 0, 1, 2, 1, 0, 1], "サボ", "エドワード・ニューゲート"],
+["サボ", "革命軍", "理想を追う参謀", "大きな目標に向かって、冷静に作戦を立てて動ける人。仲間への思いやりと行動力を両方持っている。", [1, 1, 2, 1, 1, 1, 1, 2, 1, 0], "ポートガス・D・エース", "ドンキホーテ・ドフラミンゴ"],
+["シャンクス", "赤髪海賊団", "器の大きいリーダー", "細かいことは気にせず、大事な場面では誰よりも頼れる人。余裕のある態度が、自然と人を惹きつける。", [0, 2, 1, 2, 0, 2, 1, 2, 2, 0], "バギー", "ジュラキュール・ミホーク"],
+["トラファルガー・ロー", "ハートの海賊団", "クールな戦略家", "感情を表に出さず、計画を立てて着実に目的を果たす人。冷たく見えて、実は恩や約束を決して忘れない。", [-1, 0, 2, 2, 1, -2, 1, 1, 1, 1], "コラソン", "ドンキホーテ・ドフラミンゴ"],
+["ボア・ハンコック", "九蛇海賊団", "自信に満ちた女王", "自分の魅力と実力をよく分かっていて、堂々としている人。心を許した相手には、驚くほど一途になる。", [1, -2, 0, 2, 0, -1, 2, 1, -1, 2], "モンキー・D・ルフィ", "ジュラキュール・ミホーク"],
+["ジュラキュール・ミホーク", "元王下七武海", "孤高の実力者", "人に流されず、自分のペースで頂点を極める人。必要以上に群れないけれど、認めた相手にはきちんと向き合う。", [-2, -2, 0, 2, 1, -2, 0, 0, 2, 1], "ロロノア・ゾロ", "シャンクス"],
+["バギー", "バギー海賊団", "運を味方にする人", "口がうまく、ピンチもなぜかチャンスに変えてしまう人。憎めない人柄で、気づけば周りに人が集まっている。", [1, -1, 0, -2, -1, 2, 1, 1, -2, 1], "シャンクス", "サー・クロコダイル"],
+["サー・クロコダイル", "元王下七武海", "合理的な策略家", "感情に流されず、目的のために最短ルートを選べる人。落ち着いた判断力で、どんな状況でも主導権を握る。", [-1, -2, 2, 1, 0, -2, 1, 1, 1, 2], "ジュラキュール・ミホーク", "モンキー・D・ルフィ"],
+["ドンキホーテ・ドフラミンゴ", "ドンキホーテ海賊団", "カリスマ性のある支配者", "人を動かし、場を自分のペースに持ち込むのが得意な人。大胆な発想と行動力で、周りを巻き込んでいく。", [0, -1, 2, 1, 0, 1, 2, 2, 1, 2], "サー・クロコダイル", "トラファルガー・ロー"],
+["コラソン", "海軍", "不器用な優しさの人", "ドジだけど、大切な人のためなら自分を犠牲にできる人。言葉にしない優しさが、相手の人生を変えることもある。", [0, 2, 1, -1, 1, -1, -1, -1, 0, -1], "トラファルガー・ロー", "ドンキホーテ・ドフラミンゴ"],
+["マルコ", "白ひげ海賊団", "頼れる右腕", "冷静に全体を見て、仲間を支え続けられる人。トップを立てつつ、いざという時は自分がまとめ役になる。", [-1, 2, 1, 1, 1, 0, 0, 1, 2, 0], "エドワード・ニューゲート", "ジンベエ"],
+["シャーロット・カタクリ", "ビッグ・マム海賊団", "完璧を目指す努力家", "人の期待に応えるため、見えないところで努力を重ねる人。強さの裏に、家族や仲間を思う気持ちがある。", [-1, 1, 2, 2, 2, -2, 0, 1, 1, 1], "ジュラキュール・ミホーク", "モンキー・D・ルフィ"],
+["ヤマト", "ワノ国", "自由に憧れる行動派", "憧れの人を目標に、まっすぐ突き進める人。明るく豪快で、自分の生き方は自分で決める強さを持っている。", [2, 0, -1, 1, 1, 1, 2, 0, 1, 1], "ポートガス・D・エース", "錦えもん"],
+["ネフェルタリ・ビビ", "アラバスタ王国", "責任感の強い王女", "大切な人たちのために、自分から危険に飛び込める人。まっすぐな思いで、周りの心を動かす力がある。", [1, 2, 1, -1, 2, 1, 1, 2, -1, -1], "ナミ", "サー・クロコダイル"],
+["エドワード・ニューゲート", "白ひげ海賊団", "家族を守る親分", "仲間を家族のように大切にし、どんな時も受け止める人。その器の大きさに、多くの人が集まってくる。", [1, 2, 0, 2, 0, 1, 1, 2, 2, 0], "マルコ", "シャンクス"],
+["スモーカー", "海軍", "筋を通す実直派", "決めたことは、周りに何を言われても貫き通す人。不器用だけど、自分の正義にはとことん正直。", [1, 0, 0, 0, 2, -1, 1, 1, 1, 1], "ジンベエ", "モンキー・D・ルフィ"],
+["ロブ・ルッチ", "CP9", "冷徹なプロフェッショナル", "目的のためには一切の迷いを見せない、完璧主義の実力者。自分を鍛え上げることに妥協しない。", [-2, -2, 1, 2, 2, -2, 1, 0, 2, 2], "シャーロット・カタクリ", "モンキー・D・ルフィ"],
+["ボン・クレー", "元バロックワークス", "友情に生きる人", "一度友達になった相手のためなら、どんな危険にも飛び込める人。明るさと義理堅さで、周りを笑顔にする。", [2, 2, -1, 0, 1, 2, 2, 0, 1, 0], "モンキー・D・ルフィ", "イワンコフ"],
+["Dr.ヒルルク", "ドラム王国", "夢を信じ続ける人", "周りに笑われても、自分の信じる夢をあきらめない人。その生き方が、誰かの人生の支えになっていく。", [2, 1, 0, -2, 2, 1, 2, 0, 1, -1], "トニートニー・チョッパー", "Dr.くれは"],
+["ゼフ", "海上レストラン・バラティエ", "厳しくて温かい師匠", "口は厳しくても、相手の成長を誰よりも願っている人。経験に裏打ちされた言葉に、重みがある。", [0, 1, 1, 1, 2, -1, 0, 1, 2, 0], "サンジ", "Dr.ヒルルク"],
+["ベルメール", "ココヤシ村", "豪快で愛情深い人", "細かいことは気にしないけれど、大切な人への愛情は誰より深い人。その強さと優しさが、周りの支えになる。", [1, 2, 0, 0, 1, 1, 1, 1, 1, -1], "ナミ", "ゼフ"],
+["ワイパー", "シャンディア", "誇りに生きる戦士", "自分たちの誇りを守るためなら、一切の妥協をしない人。まっすぐな闘志が、仲間の士気を高める。", [2, 1, -1, 0, 2, -2, 2, 1, 0, 2], "モンキー・D・ルフィ", "エネル"],
+["エネル", "空島", "マイペースな自信家", "自分の力と考えに絶対の自信を持っている人。周りに流されない独自の世界観が、強烈な存在感を生む。", [-1, -2, 1, 2, -2, -1, 2, 1, 2, 1], "ボア・ハンコック", "ワイパー"],
+["ギン", "クリーク海賊団", "恩を忘れない人", "受けた恩を決して忘れず、迷いながらも筋を通そうとする人。その義理堅さが、相手の心に強く残る。", [1, 1, 0, 0, 1, -1, 0, -1, -1, 1], "サンジ", "ベラミー"],
+["Dr.くれは", "ドラム王国", "ちゃきちゃきの名人", "年齢を感じさせないパワフルさで、自分のペースを貫く人。口は悪くても、腕と面倒見は本物。", [0, 1, 2, 1, 0, 1, 1, 1, 2, -1], "トニートニー・チョッパー", "Dr.ヒルルク"],
+["パウリー", "ガレーラカンパニー", "まっすぐな職人", "仕事には誰よりも真剣で、曲がったことが嫌いな人。照れ屋なところも、仲間から愛される理由。", [1, 1, 1, 1, 2, 0, 1, 1, 0, 0], "フランキー", "ロブ・ルッチ"],
+["ベラミー", "ベラミー海賊団", "生き方を変えられる人", "負けや挫折を経験しても、そこから自分を変えられる人。不器用でも、本気になったときの強さがある。", [1, 0, -1, 0, 2, 0, 1, 0, -1, 2], "バルトロメオ", "ギン"],
+["イワンコフ", "革命軍", "奇跡を起こす人", "常識にとらわれず、大胆な発想で不可能を可能にする人。強烈な個性と面倒見の良さで、仲間を引っ張る。", [2, 1, 1, 1, 0, 2, 2, 2, 1, 0], "ボン・クレー", "サー・クロコダイル"],
+["バルトロメオ", "バルトクラブ", "全力で推す人", "好きなものへの愛がとにかく深く、全力で応援できる人。感情豊かで、その熱さが周りを巻き込む。", [2, 1, -2, 0, 1, 1, 2, 0, -1, 1], "モンキー・D・ルフィ", "ベラミー"],
+["錦えもん", "ワノ国", "忠義の人", "一度仕えると決めた相手のために、全てを懸けられる人。熱い心と責任感で、仲間をまとめる。", [2, 2, 0, 0, 2, 0, 1, 1, 0, 0], "ロロノア・ゾロ", "ヤマト"]
+];
+
+// [question, [[text, {dim:val}], ...]]
+var QS=[
+["新しい島に上陸した。まず何をする？", [["すぐ探検に飛び出す", {"bold": 2, "hot": 1}], ["地図や情報を集める", {"brain": 2, "lead": 1}], ["島の人と仲良くなる", {"social": 2, "team": 1}], ["まずは腹ごしらえ", {"stable": 1, "grit": -1}]]],
+["海軍の大艦隊に囲まれた！", [["正面から突破する", {"bold": 2, "compete": 1}], ["抜け道を探す", {"brain": 2}], ["船と仲間を守るのが最優先", {"team": 2, "lead": 1}], ["落ち着いて様子を見る", {"stable": 2, "hot": -1}]]],
+["仲間が敵にさらわれた！", [["考えるより先に乗り込む", {"hot": 2, "team": 1, "bold": 1}], ["情報を集めて作戦を立てる", {"brain": 2, "lead": 1}], ["自分がおとりになる", {"team": 2, "grit": 1}], ["仲間の強さを信じて準備する", {"stable": 2, "team": 1}]]],
+["山ほどの宝を見つけた！", [["みんなで山分け", {"team": 2}], ["できれば全部ほしい", {"team": -2, "compete": 1}], ["まず使い道を計算する", {"brain": 2}], ["宝より冒険が楽しい", {"hot": 1, "bold": 1, "sense": 1}]]],
+["悪魔の実の力をひとつ選べるなら？", [["誰にも負けない戦う力", {"compete": 2, "sense": 1}], ["何でも見通せる力", {"brain": 2}], ["仲間を治せる・守れる力", {"team": 2}], ["空を自由に飛べる力", {"bold": 2, "team": -1}]]],
+["宴でのあなたは？", [["真ん中で歌って踊る", {"social": 2, "hot": 1}], ["端で静かに飲む", {"social": -2, "stable": 1}], ["料理や準備で裏方", {"team": 2, "grit": 1}], ["気づいたら寝ている", {"grit": -1, "stable": 1}]]],
+["航海中に大嵐が来た！", [["舵を取ってみんなに指示を出す", {"lead": 2, "bold": 1}], ["空を読んで進路を変える", {"brain": 2}], ["自分の持ち場を全力で守る", {"grit": 2, "team": 1}], ["不安で落ち着かない", {"stable": -2}]]],
+["次に向かう島で、仲間の意見が割れた", [["自分の行きたい島を押し通す", {"team": -2, "compete": 1}], ["みんなの意見をまとめる", {"lead": 2, "team": 1}], ["うまく誘導して自分の案にする", {"brain": 2, "lead": 1}], ["船長に任せる", {"bold": -1, "team": 1}]]],
+["自分の船を持つことになったら？", [["もちろん自分が船長", {"lead": 2, "bold": 1}], ["船長は向いてない", {"lead": -2}], ["任されたなら責任を持って引っ張る", {"lead": 1, "stable": 1, "grit": 1}], ["副船長として支えたい", {"lead": -1, "team": 2}]]],
+["名のある剣士に決闘を申し込まれた", [["喜んで受けて立つ", {"compete": 2, "hot": 1}], ["勝てる条件を整えてから受ける", {"brain": 2}], ["理由のない戦いはしない", {"stable": 1, "team": 1}], ["正直、逃げたい", {"bold": -2, "stable": -1}]]],
+["強くなるための修行のしかたは？", [["実戦の中で勝手に強くなる", {"sense": 2, "bold": 1}], ["毎日決まったメニューを続ける", {"grit": 2, "stable": 1}], ["強い人の技を分析して盗む", {"brain": 2}], ["正直、修行はめんどう", {"grit": -2}]]],
+["敵だった相手が仲間になりたいと言ってきた", [["面白い！大歓迎", {"social": 2, "bold": 1}], ["本心を見極めてから決める", {"brain": 1, "social": -1}], ["簡単には信用できない", {"social": -2}], ["仲間の意見に任せる", {"team": 1, "lead": -1}]]],
+["自分に懸賞金がかけられた！", [["額が上がると燃える", {"compete": 2, "bold": 1}], ["目立ちたくなかった", {"bold": -2, "social": -1}], ["名前が売れたなら利用する", {"brain": 1, "lead": 1}], ["仲間の額のほうが気になる", {"team": 1, "social": 1}]]],
+["夜の甲板で、仲間がひとりで落ち込んでいた", [["明るく声をかける", {"social": 2, "hot": 1}], ["気づかないふりをする", {"social": -1, "hot": -1}], ["何があったのか聞いて助言する", {"brain": 1, "lead": 1}], ["何も言わずに隣に座る", {"team": 2, "grit": 1}]]],
+["「海のルールに従え」と言われたら？", [["決まりは守る", {"grit": 2, "stable": 1, "bold": -1}], ["自由にやらせてもらう", {"bold": 2, "team": -1}], ["おかしなルールなら変えさせる", {"brain": 1, "lead": 1, "bold": 1}], ["周りの空気に合わせる", {"team": 1, "bold": -1}]]],
+["自分の活躍が新聞の一面に載った", [["最高！もっと載りたい", {"social": 1, "bold": 1, "hot": 1, "compete": 1}], ["実力が認められたならアリ", {"compete": 1, "sense": 1}], ["恥ずかしいからやめてほしい", {"bold": -2, "social": -1}], ["仲間の手柄として載せてほしい", {"team": 1, "stable": 1}]]],
+["敵の幹部に挑発された", [["倍にして言い返す", {"compete": 2, "hot": 1, "bold": 1}], ["相手にせず、戦いで黙らせる", {"stable": 2, "sense": 1}], ["逆にこっちが揺さぶる", {"brain": 1, "compete": 1, "bold": 1}], ["内心ちょっとビビる", {"stable": -2, "bold": -1}]]],
+["誰にも話していない過去を、仲間に聞かれた", [["笑って話す", {"stable": 2, "social": 1}], ["はぐらかす", {"social": -2}], ["話して、前に進むきっかけにする", {"grit": 2, "compete": 1}], ["信頼している相手なら話す", {"team": 1}]]],
+["最終決戦の直前、あなたは？", [["ワクワクが止まらない", {"compete": 1, "stable": 2, "hot": 1}], ["緊張で手が震える", {"stable": -2}], ["最後にもう一度作戦を確認", {"brain": 1, "stable": 1, "hot": -1}], ["いつも通りしっかり飯を食う", {"stable": 1, "grit": 1}]]],
+["あなたにとって一番大切なものは？", [["自由", {"bold": 2, "team": -1}], ["仲間", {"team": 2, "social": 1}], ["自分の信念", {"grit": 1, "stable": 1, "lead": 1}], ["強さ", {"compete": 2}]]]
+];
+
+// expected value per dim (center so that frequent dims don't dominate)
+var EXP={};DIMS.forEach(function(d){EXP[d]=0});
+QS.forEach(function(q){q[1].forEach(function(o){for(var k in o[1])EXP[k]+=o[1][k]/q[1].length})});
+
+// center character vectors so that every character can appear
+var MEAN=DIMS.map(function(_,i){var s=0;CHARS.forEach(function(c){s+=c[4][i]});return s/CHARS.length});
+CHARS.forEach(function(c){c[4]=c[4].map(function(v,i){return v-MEAN[i]})});
+
+// balance so every character appears about equally
+var BIAS=[0.011,-0.065,-0.053,0.035,-0.007,0.022,0.002,0.022,-0.049,0.001,0.033,0.008,0.094,0.022,-0.115,-0.021,-0.05,-0.058,-0.1,-0.049,0.01,0.039,-0.069,0.037,0.075,-0.008,0.017,0.036,0.163,-0.058,0.03,0.013,-0.073,-0.042,0.006,0.048,-0.001,0.032,0.015,0.046];
+
+var answers=[];var cur=0;
+var $=function(id){return document.getElementById(id)};
+
+function show(id){["top","quiz","result"].forEach(function(s){$(s).classList.toggle("hidden",s!==id)});window.scrollTo(0,0)}
+
+function renderQ(){
+  var q=QS[cur];
+  $("qnum").textContent="Q"+(cur+1);
+  $("qtotal").textContent="/ "+QS.length;
+  $("barFill").style.width=(cur/QS.length*100)+"%";
+  $("backBtn").style.visibility=cur===0?"hidden":"visible";
+  var h='<div class="fade"><div class="q">'+q[0]+'</div><div class="opts">';
+  q[1].forEach(function(o,i){h+='<button class="opt" data-i="'+i+'">'+o[0]+'</button>'});
+  h+='</div></div>';
+  $("qbox").innerHTML=h;
+  Array.prototype.forEach.call($("qbox").querySelectorAll(".opt"),function(b){
+    b.addEventListener("click",function(){answers[cur]=+b.dataset.i;cur++;cur<QS.length?renderQ():finish()});
+  });
+}
+
+function cos(a,b){var d=0,na=0,nb=0;for(var i=0;i<a.length;i++){d+=a[i]*b[i];na+=a[i]*a[i];nb+=b[i]*b[i]}return(na&&nb)?d/Math.sqrt(na*nb):0}
+
+function finish(){
+  var raw={};DIMS.forEach(function(d){raw[d]=0});
+  answers.forEach(function(ai,qi){var e=QS[qi][1][ai][1];for(var k in e)raw[k]+=e[k]});
+  var u=DIMS.map(function(d){return raw[d]-EXP[d]});
+  var ranked=CHARS.map(function(c,i){var s=cos(u,c[4]);return{c:c,s:s,k:s+(BIAS[i]||0)}}).sort(function(a,b){return b.k-a.k});
+  renderResult(ranked);
+}
+
+function pct(s){return Math.max(1,Math.min(99,Math.round(50+50*s)))}
+
+function renderResult(r){
+  var top=r[0].c,col=SCHOOLS[top[1]]||"#1F4E79";
+  var url="https://take04204.github.io/onepiece.html";
+  var share="私は【"+top[0]+"】タイプでした！\n「"+top[2]+"」\n相性がいいのは"+top[5]+"\n#ワンピース性格診断";
+  var xurl="https://x.com/intent/tweet?text="+encodeURIComponent(share)+(url?"&url="+encodeURIComponent(url):"");
+  var h='<div class="res fade">'+
+   '<div class="jersey" style="background:'+col+'">'+
+     '<div class="match"><b>'+pct(r[0].s)+'%</b><small>一致度</small></div>'+
+     '<div class="school">'+top[1]+'</div>'+
+     '<h2 class="name">'+top[0]+'</h2>'+
+     '<span class="type">'+top[2]+'</span>'+
+   '</div>'+
+   '<div class="body">'+
+     '<p>'+top[3]+'</p>'+
+     '<div class="pair"><div><small>相性がいいキャラ</small><strong>'+top[5]+'</strong></div>'+
+     '<div><small>ライバルになるキャラ</small><strong>'+top[6]+'</strong></div></div>'+
+     '<div class="next"><h3>次に近かったキャラ</h3><ol>'+
+       [1,2].map(function(i){return'<li>'+r[i].c[0]+' <span>（'+r[i].c[1]+'・'+r[i].c[2]+'）</span></li>'}).join("")+
+     '</ol></div>'+
+   '</div>'+
+   '<div class="actions">'+
+     '<a class="btn x" href="'+xurl+'" target="_blank" rel="noopener">Xでシェアする</a>'+
+     '<button class="btn copy" id="copyBtn">結果をコピー</button>'+
+     '<div class="toast" id="toast"></div>'+
+     '<button class="btn again" id="againBtn">もう一度診断する</button>'+
+   '</div></div>'+
+   '<p class="note">ファンが作った非公式の診断です。原作・公式とは関係ありません。</p>';
+  $("result").innerHTML=h;
+  $("barFill").style.width="100%";
+  show("result");
+  $("copyBtn").addEventListener("click",function(){
+    var t=share+(url?"\n"+url:"");
+    try{
+      navigator.clipboard.writeText(t).then(function(){$("toast").textContent="コピーしました"},function(){fallbackCopy(t)});
+    }catch(e){fallbackCopy(t)}
+  });
+  $("againBtn").addEventListener("click",function(){answers=[];cur=0;show("top")});
+}
+
+function fallbackCopy(t){
+  try{var ta=document.createElement("textarea");ta.value=t;document.body.appendChild(ta);ta.select();document.execCommand("copy");ta.remove();$("toast").textContent="コピーしました"}
+  catch(e){$("toast").textContent="コピーできませんでした。長押しで選択してください"}
+}
+
+$("startBtn").addEventListener("click",function(){answers=[];cur=0;show("quiz");renderQ()});
+$("backBtn").addEventListener("click",function(){if(cur>0){cur--;answers.length=cur;renderQ()}});
+</script>
+</body>
+</html>
