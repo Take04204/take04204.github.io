@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>鬼滅の刃性格診断</title>
+<meta name="description" content="12問に答えて、全35キャラからあなたに一番近いキャラを判定。相性がいいキャラ・ライバルも出ます。ファンによる非公式の診断です。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="鬼滅の刃性格診断">
+<meta property="og:description" content="12問に答えて、全35キャラからあなたに一番近いキャラを判定。相性がいいキャラ・ライバルも出ます。">
+<meta property="og:url" content="https://take04204.github.io/kimetsu.html">
+<meta property="og:image" content="https://take04204.github.io/ogp-kimetsu.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="鬼滅の刃性格診断">
+<meta name="twitter:description" content="12問に答えて、全35キャラからあなたに一番近いキャラを判定。">
+<meta name="twitter:image" content="https://take04204.github.io/ogp-kimetsu.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Kaku+Gothic+New:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F3F6FA; --ink:#14213D; --sub:#55627A; --card:#FFFFFF; --line:#D5DDE8;
+  --court:#2B2350; --accent:#C7A6F0; --ball:#C7A6F0; --onaccent:#1E1838;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0E1A2B; --ink:#E8EEF6; --sub:#9AA8BE; --card:#16263D; --line:#2A3D5A;
+    --court:#3A2F6B; --accent:#C7A6F0; --ball:#C7A6F0; --onaccent:#1E1838;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0E1A2B; --ink:#E8EEF6; --sub:#9AA8BE; --card:#16263D; --line:#2A3D5A;
+  --court:#3A2F6B; --accent:#C7A6F0; --ball:#C7A6F0; --onaccent:#1E1838;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Zen Kaku Gothic New","Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;
+  line-height:1.7;-webkit-font-smoothing:antialiased}
+.wrap{max-width:560px;margin:0 auto;padding:20px 18px 40px}
+h1,h2,.display{font-family:"Dela Gothic One","Zen Kaku Gothic New",sans-serif;font-weight:400;letter-spacing:.02em}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,a:focus-visible{outline:3px solid var(--ball);outline-offset:2px}
+
+/* hero: court */
+.court{position:relative;background:var(--court);color:#fff;border-radius:18px;padding:34px 22px 28px;overflow:hidden}
+.court::before{content:"";position:absolute;inset:14px;border:2px solid rgba(255,255,255,.55);border-radius:6px;pointer-events:none}
+.court::after{content:"";position:absolute;right:24px;top:14px;width:170px;height:130px;background:radial-gradient(circle,rgba(199,166,240,.3) 0 5px,transparent 6px) 0 0/22px 22px;-webkit-mask:linear-gradient(#000,transparent);mask:linear-gradient(#000,transparent);pointer-events:none}
+.court h1{position:relative;z-index:1;font-size:clamp(34px,10vw,52px);line-height:1.15;margin:0 0 16px}
+.court p{position:relative;z-index:1;margin:0;font-weight:700;color:rgba(255,255,255,.92)}
+.stats{position:relative;z-index:1;display:flex;gap:10px;margin-top:22px;flex-wrap:wrap}
+.stats span{background:rgba(255,255,255,.14);padding:4px 12px;border-radius:999px;font-size:14px;font-weight:700}
+.ball{position:absolute;right:-26px;top:-26px;width:120px;height:120px;border-radius:50%;
+  background:radial-gradient(circle at 50% 50%,#fff 0 14%,#C7A6F0 15% 52%,rgba(199,166,240,.3) 53%);opacity:.95}
+.start{display:block;width:100%;margin-top:22px;padding:18px;border:0;border-radius:14px;background:var(--accent);color:var(--onaccent);
+  font-family:"Dela Gothic One",sans-serif;font-size:22px}
+.note{font-size:12px;color:var(--sub);margin-top:18px;text-align:center}
+
+/* quiz */
+.bar{height:8px;background:var(--line);border-radius:99px;overflow:hidden;margin:6px 0 4px}
+.bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .25s}
+.count{display:flex;justify-content:space-between;font-size:14px;color:var(--sub);font-weight:700}
+.q{font-size:22px;font-weight:900;margin:22px 0 18px;line-height:1.5}
+.opts{display:grid;gap:10px}
+.opt{text-align:left;background:var(--card);border:2px solid var(--line);border-radius:14px;padding:15px 16px;font-weight:700;font-size:16px;line-height:1.5}
+.opt:hover{border-color:var(--accent)}
+.opt:active{transform:scale(.99)}
+.back{margin-top:18px;background:none;border:0;color:var(--sub);font-weight:700;padding:8px 0}
+
+/* result */
+.res{background:var(--card);border-radius:18px;overflow:hidden;border:1px solid var(--line)}
+.jersey{padding:26px 22px 22px;color:#fff;position:relative}
+.jersey .school{font-weight:700;font-size:14px;opacity:.95}
+.jersey .name{font-size:clamp(32px,9vw,44px);line-height:1.2;margin:6px 0 10px}
+.jersey .type{display:inline-block;background:rgba(255,255,255,.95);color:#14213D;font-weight:900;padding:4px 12px;border-radius:8px}
+.match{position:absolute;right:18px;top:18px;text-align:right}
+.match b{display:block;font-family:"Dela Gothic One",sans-serif;font-size:30px;line-height:1}
+.match small{font-size:11px;font-weight:700}
+.body{padding:20px 22px 6px}
+.body p{margin:0 0 16px}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}
+.pair div{border:2px solid var(--line);border-radius:12px;padding:10px 12px}
+.pair small{display:block;color:var(--sub);font-weight:700;font-size:12px}
+.pair strong{font-size:16px}
+.next h3{font-size:15px;margin:0 0 8px;color:var(--sub)}
+.next ol{margin:0 0 18px;padding-left:1.4em}
+.next li{font-weight:700}
+.next li span{color:var(--sub);font-weight:400;font-size:14px}
+.actions{display:grid;gap:10px;padding:0 22px 22px}
+.btn{display:block;text-align:center;text-decoration:none;padding:15px;border-radius:12px;font-weight:900;border:0;font-size:16px}
+.btn.x{background:#14213D;color:#fff}
+:root[data-theme="dark"] .btn.x{background:#E8EEF6;color:#14213D}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .btn.x{background:#E8EEF6;color:#14213D}}
+.btn.copy{background:var(--accent);color:var(--onaccent)}
+.btn.again{background:none;border:2px solid var(--line);color:var(--ink)}
+.toast{text-align:center;font-size:13px;color:var(--sub);min-height:1.4em}
+.hidden{display:none}
+.fade{animation:fade .35s ease}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.fade{animation:none}.bar i{transition:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <section id="top">
+    <div class="court">
+      <div class="ball" aria-hidden="true"></div>
+      <h1>鬼滅の刃<br>性格診断</h1>
+      <p>12の質問に答えて、<br>あなたに近いキャラを見つけよう。</p>
+      <div class="stats"><span>全12問</span><span>35キャラ</span><span>約2分</span></div>
+    </div>
+    <button class="start" id="startBtn">診断をはじめる</button>
+    <p class="note">ファンが作った非公式の診断です。原作・公式とは関係ありません。</p>
+  </section>
+
+  <section id="quiz" class="hidden">
+    <div class="count"><span id="qnum">Q1</span><span id="qtotal">/ 12</span></div>
+    <div class="bar"><i id="barFill"></i></div>
+    <div id="qbox"></div>
+    <button class="back" id="backBtn">ひとつ前の質問に戻る</button>
+  </section>
+
+  <section id="result" class="hidden"></section>
+
+</div>
+
+<script>
+// 10 parameters: hot, team, brain, sense, grit, social, bold, lead, stable, compete
+var DIMS=["hot","team","brain","sense","grit","social","bold","lead","stable","compete"];
+
+var SCHOOLS={"鬼殺隊・同期": "#1F6F5C", "竈門家": "#9D2B4A", "鬼殺隊・柱": "#B45309", "産屋敷家": "#4B3F72", "鬼": "#1F1A2E", "珠世の屋敷": "#7E3B6A", "鬼殺隊・育手": "#3F6212", "鱗滝門下": "#2563EB", "十二鬼月・上弦": "#7F1D1D", "十二鬼月・下弦": "#57534E", "始まりの呼吸の剣士": "#9A3412", "蝶屋敷": "#7C3AED", "鬼殺隊・隊士": "#475569", "刀鍛冶の里": "#0F766E", "煉獄家": "#C2410C"};
+
+// [name, school, type, desc, vector(10), compat, rival]
+var CHARS=[
+["竈門炭治郎", "鬼殺隊・同期", "やさしさで戦う努力家", "誰に対してもまっすぐで、相手の痛みに寄り添える人。どんなに苦しくても、家族や仲間のために何度でも立ち上がる。", [2, 2, 0, 0, 2, 1, 1, 1, 1, 0], "竈門禰豆子", "鬼舞辻無惨"],
+["竈門禰豆子", "竈門家", "芯の強い守り手", "言葉は少なくても、大切な人を守る気持ちは誰にも負けない人。自分を見失いそうなときでも、守りたいものを忘れない。", [1, 2, -1, 1, 1, 0, 1, -1, 1, -1], "竈門炭治郎", "堕姫"],
+["我妻善逸", "鬼殺隊・同期", "ここぞで輝く人", "怖がりで弱気に見えても、いざという場面で驚くほどの力を出せる人。一つの技を磨き続けた努力が、大事な場面で光る。", [1, 1, -1, 2, 1, 1, -2, -1, -2, 0], "竈門炭治郎", "嘴平伊之助"],
+["嘴平伊之助", "鬼殺隊・同期", "野性の突撃隊長", "考えるより先に体が動く、まっすぐな行動派。仲間と過ごすうちに、やさしさや思いやりも身につけていく。", [2, -1, -2, 2, 1, 0, 2, 0, 0, 2], "竈門炭治郎", "童磨"],
+["栗花落カナヲ", "鬼殺隊・同期", "自分で選ぶ力を育てる人", "気持ちを表に出すのが苦手でも、少しずつ自分で選べるようになっていく人。観察力が高く、相手の動きをすばやく見抜く。", [-1, 1, 1, 2, 1, -2, -1, -1, 2, 0], "胡蝶しのぶ", "童磨"],
+["不死川玄弥", "鬼殺隊・同期", "不器用な努力家", "才能がないと言われても、自分なりのやり方で強くなろうとする人。ぶっきらぼうでも、大切な人への思いはまっすぐ。", [1, 0, 0, -1, 2, -2, 1, -1, -1, 2], "竈門炭治郎", "不死川実弥"],
+["冨岡義勇", "鬼殺隊・柱", "口下手な実力者", "多くを語らなくても、行動で人を守り抜く人。自分に厳しく、静かに責任を背負い続ける。", [-1, 0, 1, 1, 2, -2, 0, 0, 2, 0], "竈門炭治郎", "猗窩座"],
+["胡蝶しのぶ", "鬼殺隊・柱", "笑顔の頭脳派", "おだやかな笑顔の裏で、目的のために知恵と工夫を重ねる人。力で足りない部分も、頭を使って補ってしまう。", [0, 1, 2, 0, 2, 1, 0, 1, 1, 1], "栗花落カナヲ", "童磨"],
+["煉獄杏寿郎", "鬼殺隊・柱", "燃える責任感の人", "明るく堂々としていて、周りの心に火をつける人。自分の役目からは決して逃げない強さを持つ。", [2, 2, 0, 1, 2, 2, 2, 2, 2, 1], "竈門炭治郎", "猗窩座"],
+["宇髄天元", "鬼殺隊・柱", "派手好きな頼れる兄貴", "目立つことが好きで、何事も思いきり楽しむ人。自分より仲間の命を優先する、大人の判断ができる。", [1, 1, 2, 2, 0, 2, 2, 2, 1, 1], "竈門炭治郎", "妓夫太郎"],
+["甘露寺蜜璃", "鬼殺隊・柱", "愛情いっぱいの人", "感情豊かで、好きなものを素直に好きと言える人。自分らしくいられる場所で、誰よりも力を発揮する。", [2, 2, -1, 1, 1, 2, 0, -1, -1, -1], "伊黒小芭内", "時透無一郎"],
+["時透無一郎", "鬼殺隊・柱", "天才肌のマイペース", "ぼんやりして見えても、集中すると圧倒的な力を出す人。大切な記憶を取り戻すたびに、人としてもあたたかくなる。", [-2, 0, 1, 2, 0, -2, 1, -1, 2, 1], "小鉄", "黒死牟"],
+["伊黒小芭内", "鬼殺隊・柱", "一途な規律の人", "厳しい言葉が多くても、大切な人や仲間への思いは誰よりも深い人。規律を重んじて、責任ある行動をとれる。", [0, 0, 1, 1, 2, -2, 0, 0, 1, 1], "甘露寺蜜璃", "冨岡義勇"],
+["不死川実弥", "鬼殺隊・柱", "荒っぽい情の人", "口も態度も荒いけれど、大切な人を守りたい気持ちは人一倍強い人。誰よりも先に危険へ飛び込む覚悟がある。", [2, 0, 0, 1, 2, -1, 2, 1, -1, 2], "不死川玄弥", "冨岡義勇"],
+["悲鳴嶼行冥", "鬼殺隊・柱", "静かな最強の人", "おだやかで慈悲深く、周りを広く受け止められる人。自分にも他人にも誠実で、その強さは揺るがない。", [0, 2, 1, 1, 2, 0, 1, 2, 2, 0], "時透無一郎", "黒死牟"],
+["産屋敷耀哉", "産屋敷家", "人の心を動かすリーダー", "おだやかな言葉で、相手の気持ちをまっすぐ受け止められる人。一人ひとりを大切にする姿勢が、組織全体をひとつにする。", [-1, 2, 2, 1, 1, 1, 0, 2, 2, -2], "悲鳴嶼行冥", "鬼舞辻無惨"],
+["鬼舞辻無惨", "鬼", "完璧を追い求める支配者", "自分の理想のためなら、どんな手段も考え抜く人。強いこだわりと行動力で、周りを思う方向へ動かしていく。", [1, -2, 2, 1, 1, -2, 1, 2, -2, 2], "黒死牟", "竈門炭治郎"],
+["珠世", "珠世の屋敷", "知識で道をひらく研究者", "長い年月をかけて、一つの目的のために研究を続けられる人。冷静な知恵で、仲間の大きな力になる。", [-1, 1, 2, 0, 2, -1, 0, 1, 1, -1], "愈史郎", "鬼舞辻無惨"],
+["鱗滝左近次", "鬼殺隊・育手", "厳しくて温かい師匠", "厳しい課題を出しながらも、弟子の成長を誰よりも願っている人。失敗も成功も、まるごと受け止める器がある。", [0, 2, 1, 0, 2, -1, -1, 1, 2, -1], "錆兎", "桑島慈悟郎"],
+["錆兎", "鱗滝門下", "背中で導く兄弟子", "厳しい言葉で、相手の本気を引き出せる人。自分のことより、仲間の未来を考えて動ける。", [2, 2, 0, 1, 2, 0, 2, 1, 1, 1], "冨岡義勇", "竈門炭治郎"],
+["胡蝶カナエ", "鬼殺隊・柱", "やさしさを信じる人", "どんな相手にも思いやりを向けられる、心の広い人。そのおだやかさが、周りの人の支えになっている。", [0, 2, 0, 1, 0, 2, 0, 1, 2, -2], "胡蝶しのぶ", "童磨"],
+["愈史郎", "珠世の屋敷", "一途な職人", "大切な人のためなら、どんな地道な仕事もやりきれる人。口は悪くても、仕事ぶりは確か。", [1, 0, 1, 1, 1, -2, 0, -1, -1, 0], "珠世", "竈門炭治郎"],
+["猗窩座", "十二鬼月・上弦", "強さを追い求める武人", "強くなることに全力を注ぎ、真剣勝負を何より大切にする人。相手の強さを素直に認められる。", [2, -1, -1, 2, 2, 0, 2, 0, 0, 2], "黒死牟", "煉獄杏寿郎"],
+["童磨", "十二鬼月・上弦", "つかみどころのない社交家", "誰とでもにこやかに話せて、場の空気を自分のものにする人。物事をどこか冷静に、引いた目で見ている。", [-2, -1, 1, 2, -2, 2, 1, 1, 2, 0], "猗窩座", "胡蝶しのぶ"],
+["黒死牟", "十二鬼月・上弦", "高みを目指し続ける人", "誰よりも高いところを目指して、自分を鍛え続ける人。その強い向上心が、周りを圧倒する。", [-1, -2, 1, 1, 2, -2, 0, 1, 2, 2], "鬼舞辻無惨", "継国縁壱"],
+["継国縁壱", "始まりの呼吸の剣士", "控えめな天才", "飛びぬけた才能を持ちながら、それを誇らない謙虚な人。ささやかな日常や人とのつながりを、何より大切にする。", [-1, 1, 0, 2, 0, -1, -1, -1, 2, -2], "竈門炭治郎", "鬼舞辻無惨"],
+["堕姫", "十二鬼月・上弦", "自分に正直な華やか派", "美しいものが好きで、自分の気持ちに素直な人。華やかな存在感で、その場の主役になれる。", [2, -1, -2, 1, -1, 1, 2, 0, -2, 1], "妓夫太郎", "竈門禰豆子"],
+["妓夫太郎", "十二鬼月・上弦", "妹思いの兄", "大切な家族のためなら、どこまでも体を張れる人。負けず嫌いで、しぶとさは人一倍。", [1, 1, 1, 1, 1, -2, 1, 0, -1, 2], "堕姫", "宇髄天元"],
+["神崎アオイ", "蝶屋敷", "支える側のしっかり者", "前に出なくても、自分にできることで周りを支える人。テキパキとした働きぶりで、みんなの毎日を守っている。", [0, 2, 1, -1, 2, 0, -1, 1, 1, -1], "栗花落カナヲ", "嘴平伊之助"],
+["村田", "鬼殺隊・隊士", "ふつうの頑張り屋", "特別な才能がなくても、自分の持ち場で踏ん張り続けられる人。親しみやすさで、周りをほっとさせる。", [0, 1, 0, -2, 1, 1, -1, -1, -1, -1], "竈門炭治郎", "冨岡義勇"],
+["鋼鐵塚蛍", "刀鍛冶の里", "こだわりの職人", "好きなことに一直線で、仕事には一切妥協しない人。熱くなりやすいけれど、その情熱が最高のものを生む。", [2, -1, 0, 1, 2, -2, 1, -1, -2, 1], "竈門炭治郎", "小鉄"],
+["小鉄", "刀鍛冶の里", "物おじしない知恵者", "相手が誰でも、思ったことをはっきり言える人。知識と工夫で、仲間の修行を支える。", [1, 1, 2, -1, 0, 1, 1, 0, 0, 0], "時透無一郎", "鋼鐵塚蛍"],
+["煉獄千寿郎", "煉獄家", "やさしさで支える人", "自分にできないことを認めたうえで、別の形で人の役に立とうとする人。思いやりの深さが、周りの心をやわらげる。", [0, 2, 1, -2, 1, 0, -2, -1, 0, -2], "竈門炭治郎", "煉獄杏寿郎"],
+["桑島慈悟郎", "鬼殺隊・育手", "あきらめさせない師匠", "弟子の可能性を信じて、厳しくも根気よく向き合える人。一つのことをやり抜く大切さを教えられる。", [2, 2, 0, 0, 2, 0, 0, 1, 0, 0], "我妻善逸", "鱗滝左近次"],
+["累", "十二鬼月・下弦", "つながりを求める人", "家族や仲間とのつながりを、誰より強く求める人。こだわりが強く、自分のルールを大切にする。", [0, 1, 1, 1, 0, -2, 0, 2, -2, 1], "竈門禰豆子", "竈門炭治郎"]
+];
+
+// [question, [[text, {dim:val}], ...]]
+var QS=[
+["最終選別の山に入った。夜明けまで7日間", [["とにかく鬼を倒しまくる", {"compete": 2, "bold": 1}], ["生き残る作戦を立てる", {"brain": 2}], ["ほかの参加者を助ける", {"team": 2, "hot": 1}], ["身を隠してしのぐ", {"bold": -2, "stable": 1}]]],
+["呼吸の型の修行。うまくいかない日が続く", [["できるまで同じ型を繰り返す", {"grit": 2}], ["自分に合う型を考え直す", {"brain": 1, "sense": 1}], ["感覚でつかめるまで待つ", {"sense": 2, "grit": -1}], ["師匠や仲間に相談する", {"team": 1, "social": 1}]]],
+["鎹鴉から急な任務の指令が来た", [["すぐに飛び出す", {"hot": 2, "bold": 1}], ["場所と情報を確認してから動く", {"brain": 2, "stable": 1}], ["同じ任務の隊士と合流する", {"team": 1, "lead": 1}], ["正直、気が重い", {"stable": -2}]]],
+["日輪刀の色が変わった！", [["誰かに見せたくなる", {"social": 2, "hot": 1}], ["色の意味を調べる", {"brain": 1, "grit": 1}], ["どんな色でも気にしない", {"stable": 2}], ["思った色じゃなくて悔しい", {"compete": 2, "stable": -1}]]],
+["蝶屋敷で療養中。空いた時間は？", [["自主的に機能回復訓練", {"grit": 2, "compete": 1}], ["みんなとおしゃべり", {"social": 2}], ["静かにひとりで過ごす", {"social": -2, "stable": 1}], ["屋敷の手伝いをする", {"team": 2}]]],
+["十二鬼月と遭遇！格上の相手だ", [["真っ向から斬りかかる", {"bold": 2, "hot": 1}], ["弱点を探りながら戦う", {"brain": 2, "sense": 1}], ["仲間を逃がして時間を稼ぐ", {"team": 2, "lead": 1}], ["体がすくんでしまう", {"stable": -2, "bold": -1}]]],
+["柱合会議に呼ばれた", [["堂々と自分の意見を言う", {"lead": 2, "bold": 1}], ["場の流れを読んで発言する", {"brain": 1, "social": 1}], ["聞かれたことだけ答える", {"bold": -1, "stable": 1}], ["仲間をかばう発言をする", {"team": 1, "hot": 1}]]],
+["新人隊士の指導を任された", [["厳しく鍛え上げる", {"lead": 1, "grit": 1, "compete": 1}], ["一人ひとりに合わせて教える", {"brain": 1, "team": 1}], ["お手本を見せてついてこさせる", {"sense": 1, "lead": 1}], ["人に教えるのは苦手", {"lead": -2, "social": -1}]]],
+["倒した鬼にも、悲しい過去があったと知った", [["それでも自分の役目を果たす", {"grit": 1, "stable": 1}], ["その思いを受け止めて弔う", {"team": 1, "social": 1}], ["自分には関係ないと割り切る", {"hot": -2, "stable": 1}], ["心が揺れて考え込む", {"stable": -2, "hot": 1}]]],
+["入り組んだ迷路のような屋敷に閉じ込められた", [["勘を頼りに進む", {"sense": 2, "bold": 1}], ["目印をつけて道を覚える", {"brain": 2, "grit": 1}], ["まず仲間を探す", {"team": 2}], ["ひとりで先へ進む", {"team": -2, "compete": 1}]]],
+["藤の花の家紋の家で、一晩泊まることに", [["家の人と話して盛り上がる", {"social": 2, "team": 1}], ["刀の手入れをして静かに過ごす", {"stable": 2, "grit": 1}], ["次の任務の情報を整理する", {"brain": 2}], ["早く次の鬼を倒しに行きたい", {"hot": 2, "compete": 1}]]],
+["最終決戦。あなたが任されたい役目は？", [["一番強い鬼と戦う", {"compete": 2, "bold": 1}], ["全体の作戦を指揮する", {"lead": 2, "brain": 1}], ["けが人の救護", {"team": 2, "stable": 1}], ["敵の足止めで時間を稼ぐ", {"grit": 2, "sense": 1}]]]
+];
+
+// expected value per dim (center so that frequent dims don't dominate)
+var EXP={};DIMS.forEach(function(d){EXP[d]=0});
+QS.forEach(function(q){q[1].forEach(function(o){for(var k in o[1])EXP[k]+=o[1][k]/q[1].length})});
+
+// center character vectors so that every character can appear
+var MEAN=DIMS.map(function(_,i){var s=0;CHARS.forEach(function(c){s+=c[4][i]});return s/CHARS.length});
+CHARS.forEach(function(c){c[4]=c[4].map(function(v,i){return v-MEAN[i]})});
+
+// balance so every character appears about equally
+var BIAS=[0.048, -0.05, -0.038, 0.006, 0.011, 0.019, -0.036, -0.0, 0.079, 0.019, -0.037, -0.019, 0.001, 0.005, 0.01, 0.004, -0.055, -0.012, -0.014, 0.042, -0.023, -0.018, 0.014, -0.029, -0.075, 0.002, -0.048, 0.045, 0.058, 0.052, 0.001, 0.013, 0.065, -0.0, -0.037];
+
+var answers=[];var cur=0;
+var $=function(id){return document.getElementById(id)};
+
+function show(id){["top","quiz","result"].forEach(function(s){$(s).classList.toggle("hidden",s!==id)});window.scrollTo(0,0)}
+
+function renderQ(){
+  var q=QS[cur];
+  $("qnum").textContent="Q"+(cur+1);
+  $("qtotal").textContent="/ "+QS.length;
+  $("barFill").style.width=(cur/QS.length*100)+"%";
+  $("backBtn").style.visibility=cur===0?"hidden":"visible";
+  var h='<div class="fade"><div class="q">'+q[0]+'</div><div class="opts">';
+  q[1].forEach(function(o,i){h+='<button class="opt" data-i="'+i+'">'+o[0]+'</button>'});
+  h+='</div></div>';
+  $("qbox").innerHTML=h;
+  Array.prototype.forEach.call($("qbox").querySelectorAll(".opt"),function(b){
+    b.addEventListener("click",function(){answers[cur]=+b.dataset.i;cur++;cur<QS.length?renderQ():finish()});
+  });
+}
+
+function cos(a,b){var d=0,na=0,nb=0;for(var i=0;i<a.length;i++){d+=a[i]*b[i];na+=a[i]*a[i];nb+=b[i]*b[i]}return(na&&nb)?d/Math.sqrt(na*nb):0}
+
+function finish(){
+  var raw={};DIMS.forEach(function(d){raw[d]=0});
+  answers.forEach(function(ai,qi){var e=QS[qi][1][ai][1];for(var k in e)raw[k]+=e[k]});
+  var u=DIMS.map(function(d){return raw[d]-EXP[d]});
+  var ranked=CHARS.map(function(c,i){var s=cos(u,c[4]);return{c:c,s:s,k:s+(BIAS[i]||0)}}).sort(function(a,b){return b.k-a.k});
+  renderResult(ranked);
+}
+
+function pct(s){return Math.max(1,Math.min(99,Math.round(50+50*s)))}
+
+function renderResult(r){
+  var top=r[0].c,col=SCHOOLS[top[1]]||"#1F4E79";
+  var url="https://take04204.github.io/kimetsu.html";
+  var share="私は【"+top[0]+"】タイプでした！\n「"+top[2]+"」\n相性がいいのは"+top[5]+"\n#鬼滅の刃性格診断";
+  var xurl="https://x.com/intent/tweet?text="+encodeURIComponent(share)+(url?"&url="+encodeURIComponent(url):"");
+  var h='<div class="res fade">'+
+   '<div class="jersey" style="background:'+col+'">'+
+     '<div class="match"><b>'+pct(r[0].s)+'%</b><small>一致度</small></div>'+
+     '<div class="school">'+top[1]+'</div>'+
+     '<h2 class="name">'+top[0]+'</h2>'+
+     '<span class="type">'+top[2]+'</span>'+
+   '</div>'+
+   '<div class="body">'+
+     '<p>'+top[3]+'</p>'+
+     '<div class="pair"><div><small>相性がいいキャラ</small><strong>'+top[5]+'</strong></div>'+
+     '<div><small>ライバルになるキャラ</small><strong>'+top[6]+'</strong></div></div>'+
+     '<div class="next"><h3>次に近かったキャラ</h3><ol>'+
+       [1,2].map(function(i){return'<li>'+r[i].c[0]+' <span>（'+r[i].c[1]+'・'+r[i].c[2]+'）</span></li>'}).join("")+
+     '</ol></div>'+
+   '</div>'+
+   '<div class="actions">'+
+     '<a class="btn x" href="'+xurl+'" target="_blank" rel="noopener">Xでシェアする</a>'+
+     '<button class="btn copy" id="copyBtn">結果をコピー</button>'+
+     '<div class="toast" id="toast"></div>'+
+     '<button class="btn again" id="againBtn">もう一度診断する</button>'+
+   '</div></div>'+
+   '<p class="note">ファンが作った非公式の診断です。原作・公式とは関係ありません。</p>';
+  $("result").innerHTML=h;
+  $("barFill").style.width="100%";
+  show("result");
+  $("copyBtn").addEventListener("click",function(){
+    var t=share+(url?"\n"+url:"");
+    try{
+      navigator.clipboard.writeText(t).then(function(){$("toast").textContent="コピーしました"},function(){fallbackCopy(t)});
+    }catch(e){fallbackCopy(t)}
+  });
+  $("againBtn").addEventListener("click",function(){answers=[];cur=0;show("top")});
+}
+
+function fallbackCopy(t){
+  try{var ta=document.createElement("textarea");ta.value=t;document.body.appendChild(ta);ta.select();document.execCommand("copy");ta.remove();$("toast").textContent="コピーしました"}
+  catch(e){$("toast").textContent="コピーできませんでした。長押しで選択してください"}
+}
+
+$("startBtn").addEventListener("click",function(){answers=[];cur=0;show("quiz");renderQ()});
+$("backBtn").addEventListener("click",function(){if(cur>0){cur--;answers.length=cur;renderQ()}});
+</script>
+</body>
+</html>
