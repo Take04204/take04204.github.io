@@ -4,15 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>ハイキュー性格診断</title>
-<meta name="description" content="20問に答えて、全30キャラからあなたに一番近いキャラを判定。相性がいいキャラ・ライバルも出ます。ファンによる非公式の診断です。">
+<meta name="description" content="12問に答えて、全30キャラからあなたに一番近いキャラを判定。相性がいいキャラ・ライバルも出ます。ファンによる非公式の診断です。">
 <meta property="og:type" content="website">
 <meta property="og:title" content="ハイキュー性格診断">
-<meta property="og:description" content="20問に答えて、全30キャラからあなたに一番近いキャラを判定。相性がいいキャラ・ライバルも出ます。">
+<meta property="og:description" content="12問に答えて、全30キャラからあなたに一番近いキャラを判定。相性がいいキャラ・ライバルも出ます。">
 <meta property="og:url" content="https://take04204.github.io/haikyu.html">
 <meta property="og:image" content="https://take04204.github.io/ogp-haikyu.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="ハイキュー性格診断">
-<meta name="twitter:description" content="20問に答えて、全30キャラからあなたに一番近いキャラを判定。">
+<meta name="twitter:description" content="12問に答えて、全30キャラからあなたに一番近いキャラを判定。">
 <meta name="twitter:image" content="https://take04204.github.io/ogp-haikyu.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -110,15 +110,15 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--ball);outline-offse
     <div class="court">
       <div class="ball" aria-hidden="true"></div>
       <h1>ハイキュー<br>性格診断</h1>
-      <p>20の質問に答えて、<br>あなたに近いキャラを見つけよう。</p>
-      <div class="stats"><span>全20問</span><span>30キャラ</span><span>約3分</span></div>
+      <p>12の質問に答えて、<br>あなたに近いキャラを見つけよう。</p>
+      <div class="stats"><span>全12問</span><span>30キャラ</span><span>約2分</span></div>
     </div>
     <button class="start" id="startBtn">診断をはじめる</button>
     <p class="note">ファンが作った非公式の診断です。原作・公式とは関係ありません。</p>
   </section>
 
   <section id="quiz" class="hidden">
-    <div class="count"><span id="qnum">Q1</span><span id="qtotal">/ 20</span></div>
+    <div class="count"><span id="qnum">Q1</span><span id="qtotal">/ 12</span></div>
     <div class="bar"><i id="barFill"></i></div>
     <div id="qbox"></div>
     <button class="back" id="backBtn">ひとつ前の質問に戻る</button>
@@ -174,66 +174,18 @@ var CHARS=[
 
 // [question, [[text, {dim:val}], ...]]
 var QS=[
-["チームで新しいことを始めるとき、最初にすることは？",[
- ["とりあえずやってみる",{bold:2,hot:1}],["全体を見て段取りを決める",{brain:2,lead:1}],
- ["周りに声をかけて輪をつくる",{social:2,team:1}],["まず自分の担当を完璧にする",{grit:1,team:-1}]]],
-["自分より明らかにセンスのある人が現れたら？",[
- ["気にしない。自分のやり方で勝つ",{sense:2,stable:1}],["差は認める。それでも食らいつく",{sense:-2,grit:2,hot:1}],
- ["どう攻略するか分析する",{brain:2,hot:-1}],["正直焦る。でも練習量で埋める",{stable:-1,grit:2}]]],
-["大事な場面で、自分にボールが回ってきたら？",[
- ["待ってた！決めにいく",{bold:2,compete:1,stable:1}],["緊張するけど逃げない",{stable:-1,grit:1,bold:-1}],
- ["一番確率の高い選択をする",{brain:2,bold:-1}],["味方に繋いだ方がいいならそうする",{team:2}]]],
-["休みの日の過ごし方は？",[
- ["誰かと遊びに行く",{social:2}],["家でゲームや動画",{social:-2,hot:-1,grit:-1}],
- ["自主練や勉強",{grit:2}],["予定はその日の気分で決める",{sense:1,bold:1,brain:-1}]]],
-["チームが負けている。あなたがやることは？",[
- ["声を出して空気を変える",{hot:2,social:1}],["原因を探して作戦を変える",{brain:2,lead:1}],
- ["黙って自分のプレーで示す",{social:-1,grit:1,stable:1}],["みんなの様子を見てフォローする",{team:2}]]],
-["人に褒められたら？",[
- ["思いきり調子に乗る",{hot:1,stable:-1,social:1}],["素直に嬉しい。次も頑張る",{grit:1}],
- ["まあ当然かなと思う",{sense:2,compete:1}],["照れて話をそらす",{social:-1,bold:-1}]]],
-["ミスをしたあとは？",[
- ["すぐ切り替えて次！",{stable:2}],["しばらく引きずる",{stable:-2}],
- ["原因を振り返って次に活かす",{brain:1,grit:1}],["誰かに笑い話にしてもらう",{social:1,team:1}]]],
-["グループで意見が割れたら？",[
- ["自分の意見を押し通す",{team:-2,compete:1}],["両方の意見をまとめる",{lead:2,team:1}],
- ["うまく誘導して自分の案を通す",{brain:2,lead:1}],["多数決でいいと思う",{bold:-1,team:1}]]],
-["リーダーを任されたら？",[
- ["喜んで引き受ける",{lead:2,bold:1}],["正直、向いてないと思う",{lead:-2}],
- ["任されたなら責任を持ってやる",{lead:1,stable:1,grit:1}],["自分は裏から支えたい",{lead:-1,team:2}]]],
-["勝負事で一番燃えるのは？",[
- ["強い相手に勝つとき",{compete:2,hot:1}],["作戦がハマったとき",{brain:2}],
- ["チーム全員で勝ったとき",{team:2}],["自分の記録を更新したとき",{grit:2,team:-1}]]],
-["苦手なことを任されたら？",[
- ["得意な人にお願いする",{grit:-2,brain:1}],["根性でなんとかする",{grit:2,hot:1}],
- ["楽にできる方法を探す",{brain:1,grit:-1}],["不安だけど地道にやる",{grit:1,stable:-1}]]],
-["初対面の人と話すときは？",[
- ["自分からどんどん話す",{social:2,bold:1}],["相手の様子を見てから話す",{brain:1,social:-1}],
- ["正直、話すのは苦手",{social:-2}],["冗談でつかみにいく",{social:1,bold:1,hot:1}]]],
-["自分の一番の強みは？",[
- ["センス・ひらめき",{sense:2}],["努力を続けられること",{grit:2,sense:-1}],
- ["頭を使えること",{brain:2}],["人とうまくやれること",{social:1,team:1}]]],
-["仲間が落ち込んでいたら？",[
- ["明るく声をかける",{social:2,hot:1}],["そっとしておく",{social:-1,hot:-1}],
- ["具体的なアドバイスをする",{brain:1,lead:1}],["一緒に練習に付き合う",{team:2,grit:1}]]],
-["ルールや習慣についての考え方は？",[
- ["決めたことは毎日やる",{grit:2,stable:1,bold:-1}],["ルールは破るためにある",{bold:2,team:-1}],
- ["効率が悪いなら変える",{brain:2}],["みんなに合わせる",{team:1,bold:-1}]]],
-["目立つことについては？",[
- ["大好き",{social:1,bold:1,hot:1,compete:1}],["結果がついてくるならアリ",{compete:1,sense:1}],
- ["できれば目立ちたくない",{bold:-2,social:-1}],["目立つより信頼されたい",{team:1,stable:1}]]],
-["相手に挑発されたら？",[
- ["倍にして言い返す",{compete:2,hot:1,bold:1}],["気にせず結果で黙らせる",{stable:2,sense:1}],
- ["逆にこっちが揺さぶる",{brain:1,compete:1,bold:1}],["ちょっとビビる",{stable:-2,bold:-1}]]],
-["目標の立て方は？",[
- ["でっかい目標を掲げる",{bold:2,hot:1}],["現実的な目標をコツコツ",{grit:2,brain:1}],
- ["特に立てない",{grit:-2,sense:1}],["チームの目標を優先する",{team:2,lead:1}]]],
-["プレッシャーがかかると？",[
- ["逆に燃える",{compete:1,stable:2,hot:1}],["体が固くなる",{stable:-2}],
- ["冷静に状況を見る",{brain:1,stable:1,hot:-1}],["いつも通りを心がける",{stable:1,grit:1}]]],
-["あなたにとって部活（仕事）とは？",[
- ["一番楽しいもの",{hot:2}],["勝つためにやるもの",{compete:2}],
- ["仲間との居場所",{team:2,social:1}],["やると決めたこと",{grit:2,stable:1}]]]
+["自分より明らかにセンスのある人が現れたら？", [["気にしない。自分のやり方で勝つ", {"sense": 2, "stable": 1}], ["差は認める。それでも食らいつく", {"sense": -2, "grit": 2, "hot": 1}], ["どう攻略するか分析する", {"brain": 2, "hot": -1}], ["正直焦る。でも練習量で埋める", {"stable": -1, "grit": 2}]]],
+["大事な場面で、自分にボールが回ってきたら？", [["待ってた！決めにいく", {"bold": 2, "compete": 1, "stable": 1}], ["緊張するけど逃げない", {"stable": -1, "grit": 1, "bold": -1}], ["一番確率の高い選択をする", {"brain": 2, "bold": -1}], ["味方に繋いだ方がいいならそうする", {"team": 2}]]],
+["休みの日の過ごし方は？", [["誰かと遊びに行く", {"social": 2}], ["家でゲームや動画", {"social": -2, "hot": -1, "grit": -1}], ["自主練や勉強", {"grit": 2}], ["予定はその日の気分で決める", {"sense": 1, "bold": 1, "brain": -1}]]],
+["人に褒められたら？", [["思いきり調子に乗る", {"hot": 1, "stable": -1, "social": 1}], ["素直に嬉しい。次も頑張る", {"grit": 1}], ["まあ当然かなと思う", {"sense": 2, "compete": 1}], ["照れて話をそらす", {"social": -1, "bold": -1}]]],
+["グループで意見が割れたら？", [["自分の意見を押し通す", {"team": -2, "compete": 1}], ["両方の意見をまとめる", {"lead": 2, "team": 1}], ["うまく誘導して自分の案を通す", {"brain": 2, "lead": 1}], ["多数決でいいと思う", {"bold": -1, "team": 1}]]],
+["リーダーを任されたら？", [["喜んで引き受ける", {"lead": 2, "bold": 1}], ["正直、向いてないと思う", {"lead": -2}], ["任されたなら責任を持ってやる", {"lead": 1, "stable": 1, "grit": 1}], ["自分は裏から支えたい", {"lead": -1, "team": 2}]]],
+["勝負事で一番燃えるのは？", [["強い相手に勝つとき", {"compete": 2, "hot": 1}], ["作戦がハマったとき", {"brain": 2}], ["チーム全員で勝ったとき", {"team": 2}], ["自分の記録を更新したとき", {"grit": 2, "team": -1}]]],
+["仲間が落ち込んでいたら？", [["明るく声をかける", {"social": 2, "hot": 1}], ["そっとしておく", {"social": -1, "hot": -1}], ["具体的なアドバイスをする", {"brain": 1, "lead": 1}], ["一緒に練習に付き合う", {"team": 2, "grit": 1}]]],
+["目立つことについては？", [["大好き", {"social": 1, "bold": 1, "hot": 1, "compete": 1}], ["結果がついてくるならアリ", {"compete": 1, "sense": 1}], ["できれば目立ちたくない", {"bold": -2, "social": -1}], ["目立つより信頼されたい", {"team": 1, "stable": 1}]]],
+["相手に挑発されたら？", [["倍にして言い返す", {"compete": 2, "hot": 1, "bold": 1}], ["気にせず結果で黙らせる", {"stable": 2, "sense": 1}], ["逆にこっちが揺さぶる", {"brain": 1, "compete": 1, "bold": 1}], ["ちょっとビビる", {"stable": -2, "bold": -1}]]],
+["プレッシャーがかかると？", [["逆に燃える", {"compete": 1, "stable": 2, "hot": 1}], ["体が固くなる", {"stable": -2}], ["冷静に状況を見る", {"brain": 1, "stable": 1, "hot": -1}], ["いつも通りを心がける", {"stable": 1, "grit": 1}]]],
+["あなたにとって部活（仕事）とは？", [["一番楽しいもの", {"hot": 2}], ["勝つためにやるもの", {"compete": 2}], ["仲間との居場所", {"team": 2, "social": 1}], ["やると決めたこと", {"grit": 2, "stable": 1}]]]
 ];
 
 // expected value per dim (center so that frequent dims don't dominate)
@@ -243,6 +195,9 @@ QS.forEach(function(q){q[1].forEach(function(o){for(var k in o[1])EXP[k]+=o[1][k
 // center character vectors so that every character can appear
 var MEAN=DIMS.map(function(_,i){var s=0;CHARS.forEach(function(c){s+=c[4][i]});return s/CHARS.length});
 CHARS.forEach(function(c){c[4]=c[4].map(function(v,i){return v-MEAN[i]})});
+
+// balance so every character appears about equally
+var BIAS=[0.031,0.056,0.115,0.024,-0.078,-0.006,-0.001,-0.013,-0.030,-0.040,0.082,-0.022,0.060,-0.005,-0.064,-0.022,-0.015,0.005,-0.020,-0.005,-0.018,0.025,-0.030,-0.044,0.050,-0.039,0.036,0.002,0.002,-0.037];
 
 var answers=[];var cur=0;
 var $=function(id){return document.getElementById(id)};
@@ -270,7 +225,7 @@ function finish(){
   var raw={};DIMS.forEach(function(d){raw[d]=0});
   answers.forEach(function(ai,qi){var e=QS[qi][1][ai][1];for(var k in e)raw[k]+=e[k]});
   var u=DIMS.map(function(d){return raw[d]-EXP[d]});
-  var ranked=CHARS.map(function(c){return{c:c,s:cos(u,c[4])}}).sort(function(a,b){return b.s-a.s});
+  var ranked=CHARS.map(function(c,i){var s=cos(u,c[4]);return{c:c,s:s,k:s+(BIAS[i]||0)}}).sort(function(a,b){return b.k-a.k});
   renderResult(ranked);
 }
 

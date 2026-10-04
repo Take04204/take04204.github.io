@@ -4,15 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>ワールドトリガー性格診断【B級版】</title>
-<meta name="description" content="20問に答えて、B級版の全30キャラからあなたに一番近いキャラを判定。相性がいいキャラ・ライバルも出ます。ファンによる非公式の診断です。">
+<meta name="description" content="12問に答えて、B級版の全30キャラからあなたに一番近いキャラを判定。相性がいいキャラ・ライバルも出ます。ファンによる非公式の診断です。">
 <meta property="og:type" content="website">
 <meta property="og:title" content="ワールドトリガー性格診断【B級版】">
-<meta property="og:description" content="20問に答えて、B級版の全30キャラからあなたに一番近いキャラを判定。相性がいいキャラ・ライバルも出ます。">
+<meta property="og:description" content="12問に答えて、B級版の全30キャラからあなたに一番近いキャラを判定。相性がいいキャラ・ライバルも出ます。">
 <meta property="og:url" content="https://take04204.github.io/worldtrigger-b.html">
 <meta property="og:image" content="https://take04204.github.io/ogp-worldtrigger-b.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="ワールドトリガー性格診断【B級版】">
-<meta name="twitter:description" content="20問に答えて、B級版の全30キャラからあなたに一番近いキャラを判定。">
+<meta name="twitter:description" content="12問に答えて、B級版の全30キャラからあなたに一番近いキャラを判定。">
 <meta name="twitter:image" content="https://take04204.github.io/ogp-worldtrigger-b.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -111,8 +111,8 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--ball);outline-offse
     <div class="court">
       <div class="ball" aria-hidden="true"></div>
       <h1><span style="white-space:nowrap">ワールドトリガー</span><br>性格診断</h1>
-      <p>20の質問に答えて、<br>あなたに近いキャラを見つけよう。</p>
-      <div class="stats"><span>B級版</span><span>全20問</span><span>30キャラ</span><span>約3分</span></div>
+      <p>12の質問に答えて、<br>あなたに近いキャラを見つけよう。</p>
+      <div class="stats"><span>B級版</span><span>全12問</span><span>30キャラ</span><span>約2分</span></div>
     </div>
     <button class="start" id="startBtn">診断をはじめる</button>
     <a class="swap" href="worldtrigger-a.html">A級版はこちら</a>
@@ -120,7 +120,7 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--ball);outline-offse
   </section>
 
   <section id="quiz" class="hidden">
-    <div class="count"><span id="qnum">Q1</span><span id="qtotal">/ 20</span></div>
+    <div class="count"><span id="qnum">Q1</span><span id="qtotal">/ 12</span></div>
     <div class="bar"><i id="barFill"></i></div>
     <div id="qbox"></div>
     <button class="back" id="backBtn">ひとつ前の質問に戻る</button>
@@ -173,24 +173,16 @@ var CHARS=[
 // [question, [[text, {dim:val}], ...]]
 var QS=[
 ["ランク戦で、マップを選べることになった", [["自分たちが得意なマップ", {"brain": 1, "stable": 1}], ["相手の弱点を突けるマップ", {"brain": 2, "compete": 1}], ["隊のみんなで話し合って決める", {"team": 2}], ["直感で決める", {"sense": 2, "bold": 1}]]],
-["試合開始。転送された位置が最悪だった", [["一人でも点を取りにいく", {"bold": 2, "compete": 1}], ["まず味方との合流を目指す", {"team": 2}], ["隠れて状況を見る", {"stable": 1, "brain": 1}], ["かなり焦る", {"stable": -2}]]],
 ["ランク戦の解説席に呼ばれた", [["楽しくしゃべって盛り上げる", {"social": 2, "hot": 1}], ["戦術を細かく解説する", {"brain": 2}], ["緊張してうまく話せない", {"social": -1, "stable": -1}], ["つい推しの隊を応援してしまう", {"hot": 2}]]],
-["自分たちの隊の順位が下がってしまった", [["練習量を一気に増やす", {"grit": 2, "hot": 1}], ["戦い方を根本から見直す", {"brain": 2, "lead": 1}], ["隊の空気を明るくする", {"social": 2, "team": 1}], ["正直かなりへこむ", {"stable": -2}]]],
 ["遠征選抜試験で、他の隊の人と同じ班になった", [["自分から仕切る", {"lead": 2, "bold": 1}], ["相手の得意なことを聞き出す", {"social": 1, "brain": 1}], ["自分の役割に集中する", {"grit": 1, "stable": 1}], ["気まずくて落ち着かない", {"social": -2}]]],
-["閉じた施設で、1週間の共同生活が始まった", [["料理や家事を引き受ける", {"team": 2, "grit": 1}], ["夜までみんなとおしゃべり", {"social": 2}], ["一人の時間を確保する", {"social": -2, "stable": 1}], ["生活のルールを決める", {"lead": 1, "brain": 1}]]],
-["試験の課題で、他の班に点数で負けている", [["逆転の作戦を考える", {"brain": 2, "compete": 1}], ["とにかく手を動かす", {"grit": 2}], ["点数より班の雰囲気が大事", {"team": 1, "stable": 1}], ["悔しくて眠れない", {"compete": 2, "stable": -1}]]],
 ["隊のエースが調子を落としている", [["自分が代わりに点を取る", {"compete": 2, "bold": 1}], ["不調の原因を一緒に探す", {"team": 1, "brain": 1}], ["いつも通りに接する", {"stable": 2}], ["声をかけて励ます", {"social": 1, "hot": 1}]]],
 ["新しく隊を組むなら、隊長は誰がいい？", [["自分がやる", {"lead": 2, "bold": 1}], ["一番頭のいい人", {"brain": 1, "team": 1}], ["一番強い人", {"compete": 1, "sense": 1}], ["みんなに慕われている人", {"team": 1, "social": 1}]]],
-["格上の隊長と1対1になった", [["正面から勝ちにいく", {"compete": 2, "hot": 1}], ["時間を稼いで味方を待つ", {"team": 2}], ["やられる覚悟で一矢報いる", {"bold": 2, "grit": 1}], ["相手の手をじっくり観察する", {"brain": 2}]]],
-["個人ランク戦、1日に何戦する？", [["勝てるまで何十戦でも", {"grit": 2, "compete": 1}], ["決めた数だけやる", {"stable": 1, "grit": 1}], ["その日の気分で決める", {"sense": 1, "grit": -1}], ["戦うより記録の研究が大事", {"brain": 2, "grit": -1}]]],
 ["作戦会議でのあなたは？", [["一番に案を出す", {"bold": 1, "lead": 1}], ["最後に話をまとめる", {"brain": 1, "lead": 1, "stable": 1}], ["雑談で場をなごませる", {"social": 2}], ["決まったことに全力で従う", {"team": 1, "grit": 1}]]],
 ["次の対戦相手の記録を見る時間", [["何度も見返して研究する", {"brain": 2, "grit": 1}], ["一回見れば十分", {"sense": 2}], ["正直あまり見ない", {"brain": -1, "bold": 1}], ["仲間と見て感想を言い合う", {"team": 1, "social": 1}]]],
 ["隊の仲間とケンカした", [["自分から謝る", {"team": 1, "stable": 1}], ["納得いくまで言い合う", {"hot": 2, "bold": 1}], ["少し時間をおく", {"stable": 1, "social": -1}], ["誰かに間に入ってもらう", {"social": 1, "brain": 1}]]],
 ["新しい戦術を思いついた", [["次の試合ですぐ試す", {"bold": 2, "sense": 1}], ["練習で固めてから使う", {"grit": 2, "brain": 1}], ["隊長に判断を任せる", {"team": 1, "lead": -1}], ["やっぱり慣れた戦い方でいく", {"stable": 2, "bold": -1}]]],
 ["変わったあだ名をつけられた", [["気に入って自分でも使う", {"social": 2, "hot": 1}], ["正直ちょっと困る", {"social": -1, "stable": -1}], ["特に気にしない", {"stable": 2}], ["相手にもあだ名をつけ返す", {"bold": 1, "social": 1}]]],
-["試合のあと、負けた相手チームと会った", [["自分から声をかけにいく", {"social": 2, "team": 1}], ["戦い方について質問する", {"brain": 1, "grit": 1}], ["次も勝つと宣言する", {"compete": 2}], ["そっとしておく", {"social": -1, "stable": 1}]]],
 ["試験の評価で、チームワークが弱いと書かれた", [["結果で見返す", {"compete": 2, "bold": 1}], ["どこが悪かったか考える", {"brain": 1, "team": 1}], ["班の人に直接聞いてみる", {"social": 1, "team": 1}], ["気にしすぎて落ち込む", {"stable": -2}]]],
-["遠征に行けるのは、一部の隊員だけ", [["絶対に選ばれたい", {"compete": 2, "hot": 1}], ["隊のみんなで行きたい", {"team": 2}], ["選ばれなくても腕は磨く", {"grit": 2, "stable": 1}], ["正直どちらでもいい", {"compete": -2, "stable": 1}]]],
 ["あなたが戦う一番の理由は？", [["勝つのが楽しいから", {"compete": 1, "hot": 1, "sense": 1}], ["叶えたい目的があるから", {"grit": 2, "lead": 1}], ["仲間と一緒にいたいから", {"team": 1, "social": 2}], ["誰かを守りたいから", {"team": 2, "hot": 1}]]]
 ];
 
@@ -203,7 +195,7 @@ var MEAN=DIMS.map(function(_,i){var s=0;CHARS.forEach(function(c){s+=c[4][i]});r
 CHARS.forEach(function(c){c[4]=c[4].map(function(v,i){return v-MEAN[i]})});
 
 // balance so every character appears about equally
-var BIAS=[0.075, 0.069, 0.028, -0.025, -0.055, 0.016, -0.034, -0.124, -0.084, -0.056, 0.032, -0.004, 0.091, -0.053, 0.048, -0.025, -0.038, 0.046, -0.026, -0.039, 0.091, -0.138, 0.01, 0.055, 0.005, 0.023, 0.069, -0.001, 0.024, 0.023];
+var BIAS=[0.020,0.048,0.038,-0.035,-0.064,0.025,-0.061,-0.149,-0.079,-0.089,0.077,0.015,0.101,-0.098,0.068,-0.005,-0.055,0.055,-0.057,-0.040,0.099,-0.105,0.022,0.076,0.073,-0.016,0.075,-0.002,0.033,0.029];
 
 var answers=[];var cur=0;
 var $=function(id){return document.getElementById(id)};

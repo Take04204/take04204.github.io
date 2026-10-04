@@ -4,15 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>ヒロアカ性格診断</title>
-<meta name="description" content="20問に答えて、全30キャラからあなたに一番近いキャラを判定。相性がいいキャラ・ライバルも出ます。ファンによる非公式の診断です。">
+<meta name="description" content="12問に答えて、全30キャラからあなたに一番近いキャラを判定。相性がいいキャラ・ライバルも出ます。ファンによる非公式の診断です。">
 <meta property="og:type" content="website">
 <meta property="og:title" content="ヒロアカ性格診断">
-<meta property="og:description" content="20問に答えて、全30キャラからあなたに一番近いキャラを判定。相性がいいキャラ・ライバルも出ます。">
+<meta property="og:description" content="12問に答えて、全30キャラからあなたに一番近いキャラを判定。相性がいいキャラ・ライバルも出ます。">
 <meta property="og:url" content="https://take04204.github.io/heroaca.html">
 <meta property="og:image" content="https://take04204.github.io/ogp-heroaca.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="ヒロアカ性格診断">
-<meta name="twitter:description" content="20問に答えて、全30キャラからあなたに一番近いキャラを判定。">
+<meta name="twitter:description" content="12問に答えて、全30キャラからあなたに一番近いキャラを判定。">
 <meta name="twitter:image" content="https://take04204.github.io/ogp-heroaca.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -110,15 +110,15 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--ball);outline-offse
     <div class="court">
       <div class="ball" aria-hidden="true"></div>
       <h1>ヒロアカ<br>性格診断</h1>
-      <p>20の質問に答えて、<br>あなたに近いキャラを見つけよう。</p>
-      <div class="stats"><span>全20問</span><span>30キャラ</span><span>約3分</span></div>
+      <p>12の質問に答えて、<br>あなたに近いキャラを見つけよう。</p>
+      <div class="stats"><span>全12問</span><span>30キャラ</span><span>約2分</span></div>
     </div>
     <button class="start" id="startBtn">診断をはじめる</button>
     <p class="note">ファンが作った非公式の診断です。原作・公式とは関係ありません。</p>
   </section>
 
   <section id="quiz" class="hidden">
-    <div class="count"><span id="qnum">Q1</span><span id="qtotal">/ 20</span></div>
+    <div class="count"><span id="qnum">Q1</span><span id="qtotal">/ 12</span></div>
     <div class="bar"><i id="barFill"></i></div>
     <div id="qbox"></div>
     <button class="back" id="backBtn">ひとつ前の質問に戻る</button>
@@ -170,26 +170,18 @@ var CHARS=[
 
 // [question, [[text, {dim:val}], ...]]
 var QS=[
-["雄英の入試、実技試験が始まった！", [["目の前の敵をとにかく倒す", {"bold": 2, "compete": 1}], ["試験の仕組みを見抜く", {"brain": 2}], ["困っている受験生を助ける", {"team": 2}], ["落ち着いて自分のペースで", {"stable": 2, "hot": -1}]]],
 ["強い個性に目覚めた。まず何をする？", [["すぐ試して限界を知る", {"bold": 2, "sense": 1}], ["使い方や弱点を研究する", {"brain": 2}], ["誰かを助けるために使う", {"team": 2}], ["必要な時だけ使う", {"stable": 1, "bold": -1}]]],
-["雄英体育祭で目立つチャンス！", [["1位しか狙わない", {"compete": 2, "hot": 1}], ["作戦で上位に食い込む", {"brain": 2}], ["チームで勝ち上がる", {"team": 2}], ["目立つのは苦手", {"bold": -2, "social": -1}]]],
 ["自分のヒーロー名を決めるなら？", [["一発で覚えられる派手な名前", {"social": 1, "bold": 2}], ["意味をよく考えた名前", {"brain": 1, "grit": 1}], ["憧れの人にちなんだ名前", {"team": 1, "hot": 1}], ["正直なんでもいい", {"grit": -1, "stable": 1}]]],
-["街でヴィランが暴れている！", [["すぐ止めに入る", {"hot": 2, "bold": 1}], ["状況を見てプロに連絡", {"brain": 2}], ["市民の避難を優先する", {"team": 2, "lead": 1}], ["体が固まってしまう", {"stable": -2, "bold": -1}]]],
-["寮の共有スペースでのあなたは？", [["真ん中で盛り上げ役", {"social": 2, "hot": 1}], ["基本は自分の部屋にいる", {"social": -2}], ["みんなの世話を焼く", {"team": 2, "lead": 1}], ["ひとりで勉強や筋トレ", {"grit": 2}]]],
 ["期末の実技試験、相手は先生！", [["真っ向勝負を挑む", {"compete": 1, "bold": 1, "hot": 1}], ["先生の弱点を研究する", {"brain": 2}], ["ペアの仲間と作戦を合わせる", {"team": 2}], ["不安で眠れない", {"stable": -2}]]],
 ["クラス委員長を決めることになった", [["立候補する", {"lead": 2, "bold": 1}], ["ふさわしい人に投票する", {"team": 1, "brain": 1}], ["推されたらやる", {"lead": 1, "stable": 1}], ["絶対にやりたくない", {"lead": -2}]]],
 ["インターン先を選ぶなら？", [["トップヒーローの事務所", {"compete": 2}], ["学べることが一番多い事務所", {"brain": 1, "grit": 1}], ["雰囲気のいい事務所", {"social": 1, "team": 1}], ["自分を必要としてくれる事務所", {"team": 1, "hot": 1}]]],
-["ライバルに完敗した", [["次は絶対に勝つと燃える", {"compete": 2, "hot": 1}], ["負けた原因を分析する", {"brain": 2}], ["相手の強さを素直に認める", {"stable": 1, "team": 1}], ["しばらく立ち直れない", {"stable": -2}]]],
 ["必殺技はどうやって作る？", [["ひらめきで決める", {"sense": 2, "bold": 1}], ["何度も練習して形にする", {"grit": 2}], ["理論から組み立てる", {"brain": 2}], ["仲間との連携技にする", {"team": 2}]]],
 ["クラスに転入生がやってきた", [["自分から話しかける", {"social": 2, "bold": 1}], ["様子を見てから話す", {"brain": 1, "social": -1}], ["自分からは行かない", {"social": -2}], ["困っていそうなら案内する", {"team": 1, "lead": 1}]]],
 ["ヒーローとして一番大事なのは？", [["勝つこと", {"compete": 2}], ["人を救けること", {"team": 2}], ["冷静な判断", {"brain": 1, "stable": 1}], ["そこにいるだけで安心させること", {"social": 1, "lead": 1}]]],
 ["「ヒーローに向いてない」と悩む同級生がいた", [["熱く励ます", {"hot": 2, "social": 1}], ["そっとしておく", {"social": -1, "hot": -1}], ["向いている理由を具体的に伝える", {"brain": 1, "lead": 1}], ["一緒に特訓に付き合う", {"team": 2, "grit": 1}]]],
-["校則で個性の使用が禁止された", [["ルールは守る", {"grit": 2, "stable": 1, "bold": -1}], ["必要な時は使う", {"bold": 2, "team": -1}], ["先生に掛け合って変えてもらう", {"lead": 1, "brain": 1, "bold": 1}], ["みんなに合わせる", {"team": 1, "bold": -1}]]],
 ["テレビの取材がやってきた", [["喜んでカメラの前へ", {"social": 1, "bold": 1, "hot": 1, "compete": 1}], ["実力を見せるチャンス", {"compete": 1, "sense": 1}], ["全力で逃げる", {"bold": -2, "social": -1}], ["仲間を紹介する", {"team": 1, "stable": 1}]]],
 ["ヴィランに「お前じゃ誰も救えない」と言われた", [["言い返して燃える", {"compete": 2, "hot": 1, "bold": 1}], ["黙って行動で証明する", {"stable": 2, "sense": 1}], ["逆に揺さぶり返す", {"brain": 1, "compete": 1, "bold": 1}], ["正直、心に刺さる", {"stable": -2, "bold": -1}]]],
-["自分の弱点を仲間に知られた", [["隠さず笑い飛ばす", {"stable": 2, "social": 1}], ["絶対に知られたくなかった", {"social": -2}], ["克服するまで鍛える", {"grit": 2, "compete": 1}], ["信頼できる仲間ならいい", {"team": 1}]]],
-["大事な救助任務の前の夜", [["早く出動したくてうずうず", {"hot": 1, "compete": 1, "stable": 1}], ["緊張で眠れない", {"stable": -2}], ["作戦を何度も確認する", {"brain": 1, "stable": 1, "hot": -1}], ["いつも通り早く寝る", {"stable": 2, "grit": 1}]]],
-["あなたが目指すヒーロー像は？", [["自分らしく自由に", {"bold": 2, "team": -1}], ["みんなと一緒に戦う", {"team": 2, "social": 1}], ["信念を曲げない", {"grit": 1, "stable": 1, "lead": 1}], ["誰にも負けない最強", {"compete": 2}]]]
+["自分の弱点を仲間に知られた", [["隠さず笑い飛ばす", {"stable": 2, "social": 1}], ["絶対に知られたくなかった", {"social": -2}], ["克服するまで鍛える", {"grit": 2, "compete": 1}], ["信頼できる仲間ならいい", {"team": 1}]]]
 ];
 
 // expected value per dim (center so that frequent dims don't dominate)
@@ -201,7 +193,7 @@ var MEAN=DIMS.map(function(_,i){var s=0;CHARS.forEach(function(c){s+=c[4][i]});r
 CHARS.forEach(function(c){c[4]=c[4].map(function(v,i){return v-MEAN[i]})});
 
 // balance so every character appears about equally
-var BIAS=[0.091,0.02,0.043,0.019,0.016,0.053,0.051,0.001,-0.021,0.043,0.004,-0.023,-0.025,-0.04,-0.029,0.004,0.022,-0.017,-0.015,0.034,0.059,-0.073,-0.064,-0.026,0.007,-0.12,0.01,-0.005,0.003,-0.024];
+var BIAS=[0.041,0.019,0.027,-0.008,0.014,0.034,0.035,-0.032,0.003,0.013,-0.028,-0.007,-0.046,-0.035,0.006,0.031,0.013,0.002,-0.013,0.019,0.055,-0.074,-0.038,0.031,0.030,-0.094,0.004,-0.003,0.004,-0.002];
 
 var answers=[];var cur=0;
 var $=function(id){return document.getElementById(id)};

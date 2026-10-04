@@ -4,15 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>ワンピース性格診断</title>
-<meta name="description" content="20問に答えて、全40キャラからあなたに一番近いキャラを判定。相性がいいキャラ・ライバルも出ます。ファンによる非公式の診断です。">
+<meta name="description" content="12問に答えて、全40キャラからあなたに一番近いキャラを判定。相性がいいキャラ・ライバルも出ます。ファンによる非公式の診断です。">
 <meta property="og:type" content="website">
 <meta property="og:title" content="ワンピース性格診断">
-<meta property="og:description" content="20問に答えて、全40キャラからあなたに一番近いキャラを判定。相性がいいキャラ・ライバルも出ます。">
+<meta property="og:description" content="12問に答えて、全40キャラからあなたに一番近いキャラを判定。相性がいいキャラ・ライバルも出ます。">
 <meta property="og:url" content="https://take04204.github.io/onepiece.html">
 <meta property="og:image" content="https://take04204.github.io/ogp-onepiece.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="ワンピース性格診断">
-<meta name="twitter:description" content="20問に答えて、全40キャラからあなたに一番近いキャラを判定。">
+<meta name="twitter:description" content="12問に答えて、全40キャラからあなたに一番近いキャラを判定。">
 <meta name="twitter:image" content="https://take04204.github.io/ogp-onepiece.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -110,15 +110,15 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--ball);outline-offse
     <div class="court">
       <div class="ball" aria-hidden="true"></div>
       <h1>ワンピース<br>性格診断</h1>
-      <p>20の質問に答えて、<br>あなたに近いキャラを見つけよう。</p>
-      <div class="stats"><span>全20問</span><span>40キャラ</span><span>約3分</span></div>
+      <p>12の質問に答えて、<br>あなたに近いキャラを見つけよう。</p>
+      <div class="stats"><span>全12問</span><span>40キャラ</span><span>約2分</span></div>
     </div>
     <button class="start" id="startBtn">診断をはじめる</button>
     <p class="note">ファンが作った非公式の診断です。原作・公式とは関係ありません。</p>
   </section>
 
   <section id="quiz" class="hidden">
-    <div class="count"><span id="qnum">Q1</span><span id="qtotal">/ 20</span></div>
+    <div class="count"><span id="qnum">Q1</span><span id="qtotal">/ 12</span></div>
     <div class="bar"><i id="barFill"></i></div>
     <div id="qbox"></div>
     <button class="back" id="backBtn">ひとつ前の質問に戻る</button>
@@ -180,26 +180,18 @@ var CHARS=[
 
 // [question, [[text, {dim:val}], ...]]
 var QS=[
-["新しい島に上陸した。まず何をする？", [["すぐ探検に飛び出す", {"bold": 2, "hot": 1}], ["地図や情報を集める", {"brain": 2, "lead": 1}], ["島の人と仲良くなる", {"social": 2, "team": 1}], ["まずは腹ごしらえ", {"stable": 1, "grit": -1}]]],
-["海軍の大艦隊に囲まれた！", [["正面から突破する", {"bold": 2, "compete": 1}], ["抜け道を探す", {"brain": 2}], ["船と仲間を守るのが最優先", {"team": 2, "lead": 1}], ["落ち着いて様子を見る", {"stable": 2, "hot": -1}]]],
 ["仲間が敵にさらわれた！", [["考えるより先に乗り込む", {"hot": 2, "team": 1, "bold": 1}], ["情報を集めて作戦を立てる", {"brain": 2, "lead": 1}], ["自分がおとりになる", {"team": 2, "grit": 1}], ["仲間の強さを信じて準備する", {"stable": 2, "team": 1}]]],
 ["山ほどの宝を見つけた！", [["みんなで山分け", {"team": 2}], ["できれば全部ほしい", {"team": -2, "compete": 1}], ["まず使い道を計算する", {"brain": 2}], ["宝より冒険が楽しい", {"hot": 1, "bold": 1, "sense": 1}]]],
 ["悪魔の実の力をひとつ選べるなら？", [["誰にも負けない戦う力", {"compete": 2, "sense": 1}], ["何でも見通せる力", {"brain": 2}], ["仲間を治せる・守れる力", {"team": 2}], ["空を自由に飛べる力", {"bold": 2, "team": -1}]]],
-["宴でのあなたは？", [["真ん中で歌って踊る", {"social": 2, "hot": 1}], ["端で静かに飲む", {"social": -2, "stable": 1}], ["料理や準備で裏方", {"team": 2, "grit": 1}], ["気づいたら寝ている", {"grit": -1, "stable": 1}]]],
 ["航海中に大嵐が来た！", [["舵を取ってみんなに指示を出す", {"lead": 2, "bold": 1}], ["空を読んで進路を変える", {"brain": 2}], ["自分の持ち場を全力で守る", {"grit": 2, "team": 1}], ["不安で落ち着かない", {"stable": -2}]]],
-["次に向かう島で、仲間の意見が割れた", [["自分の行きたい島を押し通す", {"team": -2, "compete": 1}], ["みんなの意見をまとめる", {"lead": 2, "team": 1}], ["うまく誘導して自分の案にする", {"brain": 2, "lead": 1}], ["船長に任せる", {"bold": -1, "team": 1}]]],
-["自分の船を持つことになったら？", [["もちろん自分が船長", {"lead": 2, "bold": 1}], ["船長は向いてない", {"lead": -2}], ["任されたなら責任を持って引っ張る", {"lead": 1, "stable": 1, "grit": 1}], ["副船長として支えたい", {"lead": -1, "team": 2}]]],
 ["名のある剣士に決闘を申し込まれた", [["喜んで受けて立つ", {"compete": 2, "hot": 1}], ["勝てる条件を整えてから受ける", {"brain": 2}], ["理由のない戦いはしない", {"stable": 1, "team": 1}], ["正直、逃げたい", {"bold": -2, "stable": -1}]]],
 ["強くなるための修行のしかたは？", [["実戦の中で勝手に強くなる", {"sense": 2, "bold": 1}], ["毎日決まったメニューを続ける", {"grit": 2, "stable": 1}], ["強い人の技を分析して盗む", {"brain": 2}], ["正直、修行はめんどう", {"grit": -2}]]],
 ["敵だった相手が仲間になりたいと言ってきた", [["面白い！大歓迎", {"social": 2, "bold": 1}], ["本心を見極めてから決める", {"brain": 1, "social": -1}], ["簡単には信用できない", {"social": -2}], ["仲間の意見に任せる", {"team": 1, "lead": -1}]]],
 ["自分に懸賞金がかけられた！", [["額が上がると燃える", {"compete": 2, "bold": 1}], ["目立ちたくなかった", {"bold": -2, "social": -1}], ["名前が売れたなら利用する", {"brain": 1, "lead": 1}], ["仲間の額のほうが気になる", {"team": 1, "social": 1}]]],
 ["夜の甲板で、仲間がひとりで落ち込んでいた", [["明るく声をかける", {"social": 2, "hot": 1}], ["気づかないふりをする", {"social": -1, "hot": -1}], ["何があったのか聞いて助言する", {"brain": 1, "lead": 1}], ["何も言わずに隣に座る", {"team": 2, "grit": 1}]]],
-["「海のルールに従え」と言われたら？", [["決まりは守る", {"grit": 2, "stable": 1, "bold": -1}], ["自由にやらせてもらう", {"bold": 2, "team": -1}], ["おかしなルールなら変えさせる", {"brain": 1, "lead": 1, "bold": 1}], ["周りの空気に合わせる", {"team": 1, "bold": -1}]]],
 ["自分の活躍が新聞の一面に載った", [["最高！もっと載りたい", {"social": 1, "bold": 1, "hot": 1, "compete": 1}], ["実力が認められたならアリ", {"compete": 1, "sense": 1}], ["恥ずかしいからやめてほしい", {"bold": -2, "social": -1}], ["仲間の手柄として載せてほしい", {"team": 1, "stable": 1}]]],
 ["敵の幹部に挑発された", [["倍にして言い返す", {"compete": 2, "hot": 1, "bold": 1}], ["相手にせず、戦いで黙らせる", {"stable": 2, "sense": 1}], ["逆にこっちが揺さぶる", {"brain": 1, "compete": 1, "bold": 1}], ["内心ちょっとビビる", {"stable": -2, "bold": -1}]]],
-["誰にも話していない過去を、仲間に聞かれた", [["笑って話す", {"stable": 2, "social": 1}], ["はぐらかす", {"social": -2}], ["話して、前に進むきっかけにする", {"grit": 2, "compete": 1}], ["信頼している相手なら話す", {"team": 1}]]],
-["最終決戦の直前、あなたは？", [["ワクワクが止まらない", {"compete": 1, "stable": 2, "hot": 1}], ["緊張で手が震える", {"stable": -2}], ["最後にもう一度作戦を確認", {"brain": 1, "stable": 1, "hot": -1}], ["いつも通りしっかり飯を食う", {"stable": 1, "grit": 1}]]],
-["あなたにとって一番大切なものは？", [["自由", {"bold": 2, "team": -1}], ["仲間", {"team": 2, "social": 1}], ["自分の信念", {"grit": 1, "stable": 1, "lead": 1}], ["強さ", {"compete": 2}]]]
+["誰にも話していない過去を、仲間に聞かれた", [["笑って話す", {"stable": 2, "social": 1}], ["はぐらかす", {"social": -2}], ["話して、前に進むきっかけにする", {"grit": 2, "compete": 1}], ["信頼している相手なら話す", {"team": 1}]]]
 ];
 
 // expected value per dim (center so that frequent dims don't dominate)
@@ -211,7 +203,7 @@ var MEAN=DIMS.map(function(_,i){var s=0;CHARS.forEach(function(c){s+=c[4][i]});r
 CHARS.forEach(function(c){c[4]=c[4].map(function(v,i){return v-MEAN[i]})});
 
 // balance so every character appears about equally
-var BIAS=[0.011,-0.065,-0.053,0.035,-0.007,0.022,0.002,0.022,-0.049,0.001,0.033,0.008,0.094,0.022,-0.115,-0.021,-0.05,-0.058,-0.1,-0.049,0.01,0.039,-0.069,0.037,0.075,-0.008,0.017,0.036,0.163,-0.058,0.03,0.013,-0.073,-0.042,0.006,0.048,-0.001,0.032,0.015,0.046];
+var BIAS=[-0.018,-0.063,-0.066,0.016,0.009,-0.007,0.016,-0.017,0.002,0.058,-0.005,0.018,0.090,0.015,-0.100,0.004,-0.066,-0.052,-0.114,-0.072,0.030,0.031,-0.059,0.081,0.075,0.011,0.051,0.010,0.137,-0.035,0.028,-0.009,-0.043,-0.047,-0.029,0.067,-0.032,0.016,0.010,0.056];
 
 var answers=[];var cur=0;
 var $=function(id){return document.getElementById(id)};
