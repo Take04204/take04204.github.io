@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ブルーロック性格診断</title>
+<meta name="description" content="12問に答えて、全30キャラからあなたに一番近いキャラを判定。相性がいいキャラ・ライバルも出ます。ファンによる非公式の診断です。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="ブルーロック性格診断">
+<meta property="og:description" content="12問に答えて、全30キャラからあなたに一番近いキャラを判定。相性がいいキャラ・ライバルも出ます。">
+<meta property="og:url" content="https://take04204.github.io/bluelock.html">
+<meta property="og:image" content="https://take04204.github.io/ogp-bluelock.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ブルーロック性格診断">
+<meta name="twitter:description" content="12問に答えて、全30キャラからあなたに一番近いキャラを判定。">
+<meta name="twitter:image" content="https://take04204.github.io/ogp-bluelock.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Kaku+Gothic+New:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F3F6FA; --ink:#14213D; --sub:#55627A; --card:#FFFFFF; --line:#D5DDE8;
+  --court:#0B3D91; --accent:#C6F432; --ball:#C6F432; --onaccent:#0B1F3A;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0E1A2B; --ink:#E8EEF6; --sub:#9AA8BE; --card:#16263D; --line:#2A3D5A;
+    --court:#1550B8; --accent:#C6F432; --ball:#C6F432; --onaccent:#0B1F3A;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0E1A2B; --ink:#E8EEF6; --sub:#9AA8BE; --card:#16263D; --line:#2A3D5A;
+  --court:#1550B8; --accent:#C6F432; --ball:#C6F432; --onaccent:#0B1F3A;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Zen Kaku Gothic New","Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;
+  line-height:1.7;-webkit-font-smoothing:antialiased}
+.wrap{max-width:560px;margin:0 auto;padding:20px 18px 40px}
+h1,h2,.display{font-family:"Dela Gothic One","Zen Kaku Gothic New",sans-serif;font-weight:400;letter-spacing:.02em}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,a:focus-visible{outline:3px solid var(--ball);outline-offset:2px}
+
+/* hero: court */
+.court{position:relative;background:var(--court);color:#fff;border-radius:18px;padding:34px 22px 28px;overflow:hidden}
+.court::before{content:"";position:absolute;inset:14px;border:2px solid rgba(255,255,255,.55);border-radius:6px;pointer-events:none}
+.court::after{content:"";position:absolute;left:50%;top:50%;width:150px;height:150px;margin:-75px 0 0 -75px;border:2px solid rgba(255,255,255,.4);border-radius:50%;pointer-events:none}
+.court h1{position:relative;z-index:1;font-size:clamp(34px,10vw,52px);line-height:1.15;margin:0 0 16px}
+.court p{position:relative;z-index:1;margin:0;font-weight:700;color:rgba(255,255,255,.92)}
+.stats{position:relative;z-index:1;display:flex;gap:10px;margin-top:22px;flex-wrap:wrap}
+.stats span{background:rgba(255,255,255,.14);padding:4px 12px;border-radius:999px;font-size:14px;font-weight:700}
+.ball{position:absolute;right:-26px;top:-26px;width:120px;height:120px;border-radius:50%;
+  background:radial-gradient(circle at 50% 50%,#0B3D91 0 14%,#fff 15% 40%,#C6F432 41% 62%,rgba(198,244,50,.3) 63%);opacity:.95}
+.start{display:block;width:100%;margin-top:22px;padding:18px;border:0;border-radius:14px;background:var(--accent);color:var(--onaccent);
+  font-family:"Dela Gothic One",sans-serif;font-size:22px}
+.note{font-size:12px;color:var(--sub);margin-top:18px;text-align:center}
+
+/* quiz */
+.bar{height:8px;background:var(--line);border-radius:99px;overflow:hidden;margin:6px 0 4px}
+.bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .25s}
+.count{display:flex;justify-content:space-between;font-size:14px;color:var(--sub);font-weight:700}
+.q{font-size:22px;font-weight:900;margin:22px 0 18px;line-height:1.5}
+.opts{display:grid;gap:10px}
+.opt{text-align:left;background:var(--card);border:2px solid var(--line);border-radius:14px;padding:15px 16px;font-weight:700;font-size:16px;line-height:1.5}
+.opt:hover{border-color:var(--accent)}
+.opt:active{transform:scale(.99)}
+.back{margin-top:18px;background:none;border:0;color:var(--sub);font-weight:700;padding:8px 0}
+
+/* result */
+.res{background:var(--card);border-radius:18px;overflow:hidden;border:1px solid var(--line)}
+.jersey{padding:26px 22px 22px;color:#fff;position:relative}
+.jersey .school{font-weight:700;font-size:14px;opacity:.95}
+.jersey .name{font-size:clamp(32px,9vw,44px);line-height:1.2;margin:6px 0 10px}
+.jersey .type{display:inline-block;background:rgba(255,255,255,.95);color:#14213D;font-weight:900;padding:4px 12px;border-radius:8px}
+.match{position:absolute;right:18px;top:18px;text-align:right}
+.match b{display:block;font-family:"Dela Gothic One",sans-serif;font-size:30px;line-height:1}
+.match small{font-size:11px;font-weight:700}
+.body{padding:20px 22px 6px}
+.body p{margin:0 0 16px}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}
+.pair div{border:2px solid var(--line);border-radius:12px;padding:10px 12px}
+.pair small{display:block;color:var(--sub);font-weight:700;font-size:12px}
+.pair strong{font-size:16px}
+.next h3{font-size:15px;margin:0 0 8px;color:var(--sub)}
+.next ol{margin:0 0 18px;padding-left:1.4em}
+.next li{font-weight:700}
+.next li span{color:var(--sub);font-weight:400;font-size:14px}
+.actions{display:grid;gap:10px;padding:0 22px 22px}
+.btn{display:block;text-align:center;text-decoration:none;padding:15px;border-radius:12px;font-weight:900;border:0;font-size:16px}
+.btn.x{background:#14213D;color:#fff}
+:root[data-theme="dark"] .btn.x{background:#E8EEF6;color:#14213D}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .btn.x{background:#E8EEF6;color:#14213D}}
+.btn.copy{background:var(--accent);color:var(--onaccent)}
+.btn.again{background:none;border:2px solid var(--line);color:var(--ink)}
+.toast{text-align:center;font-size:13px;color:var(--sub);min-height:1.4em}
+.hidden{display:none}
+.fade{animation:fade .35s ease}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.fade{animation:none}.bar i{transition:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <section id="top">
+    <div class="court">
+      <div class="ball" aria-hidden="true"></div>
+      <h1>ブルーロック<br>性格診断</h1>
+      <p>12の質問に答えて、<br>あなたに近いキャラを見つけよう。</p>
+      <div class="stats"><span>全12問</span><span>30キャラ</span><span>約2分</span></div>
+    </div>
+    <button class="start" id="startBtn">診断をはじめる</button>
+    <p class="note">ファンが作った非公式の診断です。原作・公式とは関係ありません。</p>
+  </section>
+
+  <section id="quiz" class="hidden">
+    <div class="count"><span id="qnum">Q1</span><span id="qtotal">/ 12</span></div>
+    <div class="bar"><i id="barFill"></i></div>
+    <div id="qbox"></div>
+    <button class="back" id="backBtn">ひとつ前の質問に戻る</button>
+  </section>
+
+  <section id="result" class="hidden"></section>
+
+</div>
+
+<script>
+// 10 parameters: hot, team, brain, sense, grit, social, bold, lead, stable, compete
+var DIMS=["hot","team","brain","sense","grit","social","bold","lead","stable","compete"];
+
+var SCHOOLS={"チームZ": "#1D4ED8", "チームV": "#7C3AED", "ブルーロック": "#0F172A", "日本U-20代表": "#1E3A8A", "ブルーロック運営": "#334155", "バスタード・ミュンヘン": "#B91C1C"};
+
+// [name, school, type, desc, vector(10), compat, rival]
+var CHARS=[
+["潔世一", "チームZ", "答えを見つけ続ける分析家", "負けや失敗から学び、そのたびに新しい武器を手に入れる人。冷静に全体を読みながら、ゴールへの最短ルートを探し出す。", [1, 1, 2, 1, 2, 0, 1, 1, 0, 2], "蜂楽廻", "糸師凛"],
+["蜂楽廻", "チームZ", "楽しむ天才ドリブラー", "自分の感覚を信じて、誰よりも自由にプレーできる人。いっしょにいると、周りまでワクワクしてくる。", [2, 1, -1, 2, 0, 2, 2, -1, 1, 1], "潔世一", "士道龍聖"],
+["凪誠士郎", "チームV", "省エネの天才", "面倒なことは避けても、興味を持った瞬間に驚くほどの力を出す人。マイペースさが、そのまま強さになっている。", [-2, 0, 0, 2, -2, -1, 0, -1, 2, 0], "御影玲王", "潔世一"],
+["御影玲王", "チームV", "何でもできる万能型", "器用で頭の回転が速く、どんな役割もこなせる人。夢中になれる目標を見つけると、とことん本気になる。", [1, 1, 2, 1, 1, 2, 1, 2, -1, 1], "凪誠士郎", "潔世一"],
+["千切豹馬", "チームZ", "スピードで突き抜ける人", "一度あきらめかけた夢に、もう一度本気で向き合える人。自分の武器を信じたときの爆発力は、誰にも止められない。", [0, 0, 1, 2, 1, 0, 1, 0, -1, 2], "國神錬介", "剣城斬鉄"],
+["國神錬介", "チームZ", "正々堂々のヒーロー", "まっすぐで誠実、誰に対してもフェアでいられる人。地道な努力を積み重ねて、仲間の支えになる。", [2, 2, -1, 0, 2, 0, 1, 1, 1, 1], "千切豹馬", "潔世一"],
+["糸師凛", "ブルーロック", "ストイックな完璧主義者", "目標のために、自分にも周りにも妥協を許さない人。その本気さが、チーム全体の基準を引き上げる。", [-1, -2, 2, 2, 2, -2, 1, 0, 1, 2], "潔世一", "糸師冴"],
+["糸師冴", "日本U-20代表", "世界を知る天才", "高いレベルを知っているからこそ、物事を冷静に見られる人。少ない言葉で、本質をずばりと突く。", [-2, -1, 2, 2, 1, -1, 1, 0, 2, 1], "士道龍聖", "糸師凛"],
+["馬狼照英", "ブルーロック", "王様気質の実力者", "自分が主役であることにこだわり、結果で周りを黙らせる人。プライドの高さは、努力に裏打ちされている。", [2, -2, 1, 2, 1, -1, 2, 2, 0, 2], "千切豹馬", "潔世一"],
+["士道龍聖", "ブルーロック", "本能のストライカー", "直感とひらめきで、誰も予想しない動きをする人。型破りなエネルギーで、場の空気を一変させる。", [2, -1, -2, 2, -1, 1, 2, 0, 1, 2], "糸師冴", "糸師凛"],
+["ミヒャエル・カイザー", "バスタード・ミュンヘン", "頂点に立つ皇帝", "自信とカリスマ性で、周りを自分のペースに巻き込む人。勝つための技術と頭脳を、高いレベルで兼ね備えている。", [0, -2, 2, 2, 1, 1, 2, 2, 1, 2], "アレクシス・ネス", "潔世一"],
+["絵心甚八", "ブルーロック運営", "常識を壊す指導者", "誰もやらないやり方で、本気で結果を出そうとする人。厳しい言葉の裏に、未来への強いビジョンがある。", [-2, 0, 2, 1, 1, -2, 2, 2, 2, 0], "帝襟アンリ", "オリヴァ・愛空"],
+["二子一揮", "ブルーロック", "フィールドを読む頭脳派", "物静かでも、状況を一瞬で見抜く目を持つ人。相手の動きを読んで、ここぞの一手を打てる。", [-1, 0, 2, 1, 1, -1, 0, 0, 1, 1], "烏旅人", "潔世一"],
+["雷市陣吾", "チームZ", "熱くて面倒見のいい人", "口は荒くても、チームのために体を張れる人。熱さと根性で、苦しい場面ほど頼りになる。", [2, 1, -1, 0, 2, 1, 1, 0, 0, 2], "國神錬介", "馬狼照英"],
+["黒名蘭世", "ブルーロック", "合わせ上手な相棒", "相手のよさを引き出して、いっしょに輝ける人。素直でやわらかい人柄で、誰とでもいいコンビになれる。", [1, 2, 1, 0, 1, 1, 0, 0, 1, 0], "潔世一", "乙夜影汰"],
+["烏旅人", "ブルーロック", "クールな勝負師", "相手の心理を読んで、冷静に駆け引きできる人。自分の型を知り尽くした、したたかな強さがある。", [0, 0, 2, 1, 1, 1, 1, 1, 2, 2], "乙夜影汰", "二子一揮"],
+["乙夜影汰", "ブルーロック", "つかめない自由人", "マイペースでつかみどころがなく、自然体でいられる人。ここぞという瞬間を見逃さないセンスを持つ。", [-1, 0, 1, 2, 0, 1, 1, -1, 2, 0], "烏旅人", "黒名蘭世"],
+["氷織羊", "ブルーロック", "静かな司令塔", "前に出すぎず、周りを活かすことで力を発揮する人。自分の好きなことを見つけたとき、大きく花開く。", [-1, 1, 2, 2, 0, -1, -1, -1, 1, 0], "黒名蘭世", "糸師凛"],
+["蟻生十兵衛", "ブルーロック", "美意識の高い人", "自分らしさとかっこよさにこだわる、堂々とした人。ブレない自信で、どんな場でも存在感を放つ。", [1, 0, -1, 1, 0, 2, 2, 0, 2, 0], "時光青志", "雷市陣吾"],
+["時光青志", "ブルーロック", "不安を力に変える人", "心配性でも、本気になったときのパワーは誰より大きい人。逃げずに向き合い続ける姿が、強さにつながる。", [0, 1, 0, 1, 2, -2, -2, -1, -2, 1], "蟻生十兵衛", "馬狼照英"],
+["我牙丸吟", "チームZ", "野性的な感覚派", "考えるより先に体が動く、天性の反応を持つ人。おだやかで動じない性格が、ピンチで頼りになる。", [0, 1, -1, 2, 0, 0, 1, 0, 2, 0], "蜂楽廻", "剣城斬鉄"],
+["剣城斬鉄", "チームV", "まっすぐなスピードスター", "思い込んだら一直線、全力で走り抜ける人。素直さとガッツが、チームを前に進める。", [1, 1, -2, 1, 1, 0, 1, 0, 0, 1], "凪誠士郎", "千切豹馬"],
+["五十嵐栗夢", "ブルーロック", "あきらめの悪い挑戦者", "格好悪くても、しぶとく食らいつける人。そのしつこさと明るさが、チャンスを引き寄せる。", [1, 1, -1, -1, 2, 2, -1, -1, -2, 1], "潔世一", "時光青志"],
+["アレクシス・ネス", "バスタード・ミュンヘン", "支える天才パサー", "信じた相手の力を最大限に引き出せる人。高い技術と献身で、エースを輝かせる。", [1, 0, 2, 1, 1, 0, 1, 0, -1, 1], "ミヒャエル・カイザー", "潔世一"],
+["成早朝日", "チームZ", "家族思いの頑張り屋", "大切な人のために、地道に努力を続けられる人。小さな体でも、大きな気持ちで勝負できる。", [1, 2, 0, -1, 2, 1, 0, 0, 0, 1], "潔世一", "久遠渉"],
+["久遠渉", "チームZ", "勝ちへの近道を探す人", "勝つためにどう動くべきか、冷静に計算できる人。一度覚悟を決めたら、誰よりも本気で走る。", [0, -1, 2, 0, 0, 1, 1, 1, 0, 2], "成早朝日", "國神錬介"],
+["伊右衛門送人", "チームZ", "最後の砦", "目立たなくても、みんなのために体を張れる人。チームのピンチを、何度も救ってきた守り手。", [0, 2, 0, -1, 1, 0, -1, 0, 1, 0], "雷市陣吾", "我牙丸吟"],
+["帝襟アンリ", "ブルーロック運営", "夢を支える情熱家", "大きな夢を信じて、裏側から全力で支え続ける人。その熱意が、プロジェクト全体を動かしている。", [1, 2, 1, -1, 2, 2, 0, 0, -1, 0], "絵心甚八", "オリヴァ・愛空"],
+["七星虹郎", "ブルーロック", "まっすぐな努力家", "素朴で誠実、こつこつと自分を磨き続ける人。いっしょにいると、自然と周りも前向きになれる。", [1, 2, 0, 1, 2, 0, -1, -1, 1, 0], "潔世一", "剣城斬鉄"],
+["オリヴァ・愛空", "日本U-20代表", "余裕のあるキャプテン", "広い視野と落ち着きで、チームをまとめられる人。堂々としたふるまいが、周りに安心を与える。", [0, 1, 2, 2, 0, 2, 1, 2, 2, 1], "糸師冴", "潔世一"]
+];
+
+// [question, [[text, {dim:val}], ...]]
+var QS=[
+["ブルーロックへの招集状が届いた", [["迷わず参加する", {"bold": 2, "hot": 1}], ["どんな施設か調べてから", {"brain": 2, "bold": -1}], ["仲間と相談して決める", {"team": 2, "social": 1}], ["正直、ちょっと面倒", {"grit": -2, "stable": 1}]]],
+["入寮初日、同室のメンバーと", [["すぐ打ち解けて盛り上げる", {"social": 2, "hot": 1}], ["相手のサッカー歴を聞く", {"brain": 1, "compete": 1}], ["ひとりで自主練へ", {"grit": 1, "social": -2}], ["部屋のルールを決める", {"lead": 2}]]],
+["鬼ごっこで、最後の1人になりそう", [["一発逆転を狙う", {"bold": 2, "sense": 1}], ["誰を狙えばいいか計算する", {"brain": 2}], ["最後まで走ってねばる", {"grit": 2}], ["焦って頭が真っ白に", {"stable": -2}]]],
+["相手GKと1対1。どう決める？", [["思い切りぶち抜く", {"bold": 2, "hot": 1}], ["GKの重心を見て逆をつく", {"brain": 2}], ["ひらめいたフェイントで", {"sense": 2}], ["味方に流して確実に", {"team": 2, "compete": -1}]]],
+["チームのエースに選ばれなかった", [["実力で奪い返す", {"compete": 2, "hot": 1}], ["今の自分にできる役割を探す", {"brain": 1, "team": 1}], ["ひたすら練習量を増やす", {"grit": 2}], ["正直へこむ", {"stable": -2}]]],
+["フィジカル測定で最下位だった", [["技術でカバーする", {"brain": 1, "sense": 1}], ["トレーニングで追い抜く", {"grit": 2, "compete": 1}], ["気にしない", {"stable": 2}], ["かなり落ち込む", {"stable": -2, "bold": -1}]]],
+["チームの作戦会議で", [["自分の案をぐいぐい出す", {"lead": 2, "bold": 1}], ["全員の意見をまとめる", {"lead": 1, "team": 1, "social": 1}], ["聞かれたら答える", {"bold": -1, "stable": 1}], ["自分の役割だけ確認する", {"team": -1, "grit": 1}]]],
+["PKのキッカーを決めることに", [["自分が蹴る", {"bold": 2, "compete": 1}], ["一番決めそうな人を推す", {"brain": 1, "team": 1}], ["チームの指名に従う", {"stable": 1, "lead": -1}], ["プレッシャーで逃げたい", {"stable": -2, "bold": -1}]]],
+["脱落しそうな仲間がいる", [["全力で励ます", {"hot": 1, "social": 2}], ["自分が勝ち残るのが先", {"team": -2, "compete": 1}], ["一緒に残る作戦を考える", {"brain": 1, "team": 2}], ["本人の意思に任せる", {"stable": 1, "lead": -1}]]],
+["世界の強豪チームとの試合が決まった", [["ワクワクが止まらない", {"hot": 2, "compete": 1}], ["相手の映像を見て研究", {"brain": 2, "grit": 1}], ["いつも通り準備する", {"stable": 2}], ["緊張で眠れない", {"stable": -2, "bold": -1}]]],
+["背番号10をもらえることに！", [["当然、エースの番号だ", {"compete": 2, "bold": 1}], ["番号に見合う結果を出す", {"grit": 1, "lead": 1}], ["プレッシャーで落ち着かない", {"stable": -2}], ["番号より役割が大事", {"team": 1, "brain": 1}]]],
+["W杯優勝に一番必要なのは？", [["誰にも負けない個の力", {"compete": 2, "sense": 1}], ["チーム全員の団結", {"team": 2, "social": 1}], ["毎日の積み重ね", {"grit": 2, "stable": 1}], ["誰より楽しむこと", {"hot": 2, "bold": 1}]]]
+];
+
+// expected value per dim (center so that frequent dims don't dominate)
+var EXP={};DIMS.forEach(function(d){EXP[d]=0});
+QS.forEach(function(q){q[1].forEach(function(o){for(var k in o[1])EXP[k]+=o[1][k]/q[1].length})});
+
+// center character vectors so that every character can appear
+var MEAN=DIMS.map(function(_,i){var s=0;CHARS.forEach(function(c){s+=c[4][i]});return s/CHARS.length});
+CHARS.forEach(function(c){c[4]=c[4].map(function(v,i){return v-MEAN[i]})});
+
+// balance so every character appears about equally
+var BIAS=[0.061, -0.015, 0.025, -0.014, -0.056, 0.048, -0.045, 0.045, -0.043, -0.095, 0.04, 0.019, -0.011, 0.031, -0.027, -0.007, 0.063, -0.018, -0.042, -0.12, -0.0, 0.013, -0.044, -0.038, 0.111, 0.035, 0.038, 0.005, 0.025, 0.016];
+
+var answers=[];var cur=0;
+var $=function(id){return document.getElementById(id)};
+
+function show(id){["top","quiz","result"].forEach(function(s){$(s).classList.toggle("hidden",s!==id)});window.scrollTo(0,0)}
+
+function renderQ(){
+  var q=QS[cur];
+  $("qnum").textContent="Q"+(cur+1);
+  $("qtotal").textContent="/ "+QS.length;
+  $("barFill").style.width=(cur/QS.length*100)+"%";
+  $("backBtn").style.visibility=cur===0?"hidden":"visible";
+  var h='<div class="fade"><div class="q">'+q[0]+'</div><div class="opts">';
+  q[1].forEach(function(o,i){h+='<button class="opt" data-i="'+i+'">'+o[0]+'</button>'});
+  h+='</div></div>';
+  $("qbox").innerHTML=h;
+  Array.prototype.forEach.call($("qbox").querySelectorAll(".opt"),function(b){
+    b.addEventListener("click",function(){answers[cur]=+b.dataset.i;cur++;cur<QS.length?renderQ():finish()});
+  });
+}
+
+function cos(a,b){var d=0,na=0,nb=0;for(var i=0;i<a.length;i++){d+=a[i]*b[i];na+=a[i]*a[i];nb+=b[i]*b[i]}return(na&&nb)?d/Math.sqrt(na*nb):0}
+
+function finish(){
+  var raw={};DIMS.forEach(function(d){raw[d]=0});
+  answers.forEach(function(ai,qi){var e=QS[qi][1][ai][1];for(var k in e)raw[k]+=e[k]});
+  var u=DIMS.map(function(d){return raw[d]-EXP[d]});
+  var ranked=CHARS.map(function(c,i){var s=cos(u,c[4]);return{c:c,s:s,k:s+(BIAS[i]||0)}}).sort(function(a,b){return b.k-a.k});
+  renderResult(ranked);
+}
+
+function pct(s){return Math.max(1,Math.min(99,Math.round(50+50*s)))}
+
+function renderResult(r){
+  var top=r[0].c,col=SCHOOLS[top[1]]||"#1F4E79";
+  var url="https://take04204.github.io/bluelock.html";
+  var share="私は【"+top[0]+"】タイプでした！\n「"+top[2]+"」\n相性がいいのは"+top[5]+"\n#ブルーロック性格診断";
+  var xurl="https://x.com/intent/tweet?text="+encodeURIComponent(share)+(url?"&url="+encodeURIComponent(url):"");
+  var h='<div class="res fade">'+
+   '<div class="jersey" style="background:'+col+'">'+
+     '<div class="match"><b>'+pct(r[0].s)+'%</b><small>一致度</small></div>'+
+     '<div class="school">'+top[1]+'</div>'+
+     '<h2 class="name">'+top[0]+'</h2>'+
+     '<span class="type">'+top[2]+'</span>'+
+   '</div>'+
+   '<div class="body">'+
+     '<p>'+top[3]+'</p>'+
+     '<div class="pair"><div><small>相性がいいキャラ</small><strong>'+top[5]+'</strong></div>'+
+     '<div><small>ライバルになるキャラ</small><strong>'+top[6]+'</strong></div></div>'+
+     '<div class="next"><h3>次に近かったキャラ</h3><ol>'+
+       [1,2].map(function(i){return'<li>'+r[i].c[0]+' <span>（'+r[i].c[1]+'・'+r[i].c[2]+'）</span></li>'}).join("")+
+     '</ol></div>'+
+   '</div>'+
+   '<div class="actions">'+
+     '<a class="btn x" href="'+xurl+'" target="_blank" rel="noopener">Xでシェアする</a>'+
+     '<button class="btn copy" id="copyBtn">結果をコピー</button>'+
+     '<div class="toast" id="toast"></div>'+
+     '<button class="btn again" id="againBtn">もう一度診断する</button>'+
+   '</div></div>'+
+   '<p class="note">ファンが作った非公式の診断です。原作・公式とは関係ありません。</p>';
+  $("result").innerHTML=h;
+  $("barFill").style.width="100%";
+  show("result");
+  $("copyBtn").addEventListener("click",function(){
+    var t=share+(url?"\n"+url:"");
+    try{
+      navigator.clipboard.writeText(t).then(function(){$("toast").textContent="コピーしました"},function(){fallbackCopy(t)});
+    }catch(e){fallbackCopy(t)}
+  });
+  $("againBtn").addEventListener("click",function(){answers=[];cur=0;show("top")});
+}
+
+function fallbackCopy(t){
+  try{var ta=document.createElement("textarea");ta.value=t;document.body.appendChild(ta);ta.select();document.execCommand("copy");ta.remove();$("toast").textContent="コピーしました"}
+  catch(e){$("toast").textContent="コピーできませんでした。長押しで選択してください"}
+}
+
+$("startBtn").addEventListener("click",function(){answers=[];cur=0;show("quiz");renderQ()});
+$("backBtn").addEventListener("click",function(){if(cur>0){cur--;answers.length=cur;renderQ()}});
+</script>
+</body>
+</html>

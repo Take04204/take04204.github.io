@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>キャラ性格診断｜あなたは誰タイプ？</title>
-<meta name="description" content="好きな作品の「自分に似てるキャラ」が2分でわかる性格診断。ファンによる非公式の診断です。">
+<meta name="description" content="好きな作品の「自分に似てるキャラ」がすぐわかる性格診断。ファンによる非公式の診断です。">
 <meta property="og:type" content="website">
 <meta property="og:title" content="キャラ性格診断｜あなたは誰タイプ？">
-<meta property="og:description" content="好きな作品の「自分に似てるキャラ」が2分でわかる性格診断。">
+<meta property="og:description" content="好きな作品の「自分に似てるキャラ」がすぐわかる性格診断。">
 <meta property="og:url" content="https://take04204.github.io/">
 <meta property="og:image" content="https://take04204.github.io/ogp-top.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -43,7 +43,7 @@ h2{font-size:16px;color:var(--sub);margin:28px 0 12px}
   <header class="hero">
     <h1>あなたは、<br>誰タイプ？</h1>
     <span class="tag">キャラ性格診断、続々公開中</span>
-    <p>約2分で、あなたに一番近いキャラがわかる</p>
+    <p>質問に答えるだけで、あなたに一番近いキャラがわかる</p>
   </header>
 
   <h2>好きな作品を選んでください</h2>
@@ -53,18 +53,20 @@ h2{font-size:16px;color:var(--sub);margin:28px 0 12px}
 </div>
 <script>
 // 新しい診断はここに1行追加するだけ（上にあるほど新しい）
-// qs = 問題数（12〜14）
 var QUIZZES=[
-  {name:"ワールドトリガー",title:"ワールドトリガー性格診断【A級版】",file:"worldtrigger-a.html",chars:34,qs:12,emoji:"🛡️",color:"#15181F",isNew:true},
-  {name:"ワールドトリガー",title:"ワールドトリガー性格診断【B級版】",file:"worldtrigger-b.html",chars:30,qs:12,emoji:"🎯",color:"#0E6B4A",isNew:true},
-  {name:"ヒロアカ",file:"heroaca.html",chars:30,qs:12,emoji:"💥",color:"#14532D",isNew:true},
-  {name:"ワンピース",file:"onepiece.html",chars:40,qs:12,emoji:"🏴‍☠️",color:"#123B6B",isNew:true},
+  {name:"キングダム",file:"kingdom.html",chars:40,qs:12,emoji:"⚔️",color:"#7A1F1F",isNew:true},
+  {name:"BLEACH",file:"bleach.html",chars:40,qs:12,emoji:"🌙",color:"#24272E",isNew:true},
+  {name:"ブルーロック",file:"bluelock.html",chars:30,qs:12,emoji:"⚽",color:"#0B3D91",isNew:true},
+  {name:"ワールドトリガー",title:"ワールドトリガー性格診断【A級版】",file:"worldtrigger-a.html",chars:34,qs:12,emoji:"🛡️",color:"#15181F",isNew:false},
+  {name:"ワールドトリガー",title:"ワールドトリガー性格診断【B級版】",file:"worldtrigger-b.html",chars:30,qs:12,emoji:"🎯",color:"#0E6B4A",isNew:false},
+  {name:"ヒロアカ",file:"heroaca.html",chars:30,qs:12,emoji:"💥",color:"#14532D",isNew:false},
+  {name:"ワンピース",file:"onepiece.html",chars:40,qs:12,emoji:"🏴‍☠️",color:"#123B6B",isNew:false},
   {name:"ハイキュー",file:"haikyu.html",chars:30,qs:12,emoji:"🏐",color:"#E8761E",isNew:false}
 ];
 var h="";
 QUIZZES.forEach(function(q){
   h+='<a class="item" href="'+q.file+'"><span class="dot" style="background:'+q.color+'">'+q.emoji+'</span>'+
-     '<span><b>'+(q.title||q.name+'性格診断')+(q.isNew?'<span class="new">NEW</span>':'')+'</b><small>全'+q.chars+'キャラ・'+(q.qs||12)+'問</small></span>'+
+     '<span><b>'+(q.title||q.name+'性格診断')+(q.isNew?'<span class="new">NEW</span>':'')+'</b><small>全'+q.chars+'キャラ・'+q.qs+'問</small></span>'+
      '<span class="go">›</span></a>';
 });
 document.getElementById("list").innerHTML=h;
